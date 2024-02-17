@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expense.Tracking.Api", "Expense.Tracking.Api\Expense.Tracking.Api.csproj", "{14AF1B2D-10E7-4011-AE1D-4372C7A700A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expense.Tracking.Api.UnitTests", "Expense.Tracking.Api.UnitTests\Expense.Tracking.Api.UnitTests.csproj", "{0893B988-8280-46E0-A663-AD5E77985611}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expense.Tracking.Api.Tests", "Expense.Tracking.Api.Tests\Expense.Tracking.Api.Tests.csproj", "{0893B988-8280-46E0-A663-AD5E77985611}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
