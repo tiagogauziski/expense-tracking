@@ -1,23 +1,56 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Expense.Tracking.Api.Infrastrucure.Database
+namespace Expense.Tracking.Api.Infrastrucure.Database;
+
+public class ExpenseContext : DbContext
 {
-    public class ExpenseContext : DbContext
+    public DbSet<Domain.Transaction> Transactions { get; set; }
+
+    public string DbPath { get; }
+
+    public ExpenseContext()
     {
-        public DbSet<Domain.Transaction> Transactions { get; set; }
+        var folder = Environment.SpecialFolder.LocalApplicationData;
+        var path = Environment.GetFolderPath(folder);
+        DbPath = Path.Join(path, "expenses.db");
+    }
 
-        public string DbPath { get; }
+    // The following configures EF to create a Sqlite database file in the
+    // special "local" folder for your platform.
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+        => options.UseSqlite($"Data Source={DbPath}");
 
-        public ExpenseContext()
-        {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-            DbPath = Path.Join(path, "expenses.db");
-        }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Domain.Transaction>()
+            .HasKey(transaction => transaction.Id);
 
-        // The following configures EF to create a Sqlite database file in the
-        // special "local" folder for your platform.
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite($"Data Source={DbPath}");
+        modelBuilder.Entity<Domain.Transaction>()
+            .Property(transaction => transaction.Type)
+            .HasMaxLength(50)
+            .IsRequired(true);
+
+        modelBuilder.Entity<Domain.Transaction>()
+            .Property(transaction => transaction.Category)
+            .HasMaxLength(100)
+            .IsRequired(false);
+
+        modelBuilder.Entity<Domain.Transaction>()
+            .Property(transaction => transaction.Details)
+            .HasMaxLength(100)
+            .IsRequired(true);
+
+        modelBuilder.Entity<Domain.Transaction>()
+            .Property(transaction => transaction.Owner)
+            .HasMaxLength(100)
+            .IsRequired(false);
+
+        modelBuilder.Entity<Domain.Transaction>()
+            .Property(transaction => transaction.CurrencyCode)
+            .HasMaxLength(10)
+            .IsRequired(false)
+            .HasDefaultValue("NZD");
+
+        base.OnModelCreating(modelBuilder);
     }
 }

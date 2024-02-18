@@ -1,0 +1,78 @@
+﻿namespace Expense.Tracking.Api.Domain.Engines;
+
+public class BankCsvLayoutEngine
+{
+    private const int AccountTypeColumn = 0;
+    private const int AccountDetailsColumn = 1;
+    private const int AccountParticularsColumn = 2;
+    private const int AccountCodeColumn = 3;
+    private const int AccountReferenceColumn = 4;
+    private const int AccountAmountColumn = 5;
+    private const int AccountDateColumn = 6;
+
+    public async Task<IEnumerable<Transaction>> Execute(Stream stream, CancellationToken cancellationToken = default)
+    {
+        using StreamReader reader = new StreamReader(stream);
+
+        var transactionList = new List<Transaction>();
+        var isHeader = true;
+
+        string? line = string.Empty;
+        while (!reader.EndOfStream)
+        {
+            line = await reader.ReadLineAsync(cancellationToken);
+            if (line is null)
+            {
+                break;
+            }
+
+            // Skip header
+            if (isHeader)
+            {
+                isHeader = false;
+                continue;
+            }
+
+            var transaction = StringToTransaction(line);
+            if (transaction is null)
+            {
+                continue;
+            }
+
+            transactionList.Add(transaction);
+        }
+
+        return transactionList;
+    }
+
+    internal Transaction StringToTransaction(string text)
+    {
+        var lineSplit = text.Split(',');
+
+        var transaction = new Transaction();
+        transaction.Type = lineSplit[AccountTypeColumn];
+        transaction.Amount = decimal.Parse(lineSplit[AccountAmountColumn]);
+        transaction.Date = DateOnly.Parse(lineSplit[AccountDateColumn]);
+        switch (transaction.Type)
+        {
+            case "Visa Purchase":
+                transaction.Details = lineSplit[AccountCodeColumn];
+                transaction.Owner = lineSplit[AccountDetailsColumn];
+                break;
+            case "Eft-Pos":
+                transaction.Details = lineSplit[AccountDetailsColumn];
+                transaction.Owner = lineSplit[AccountParticularsColumn] + lineSplit[AccountCodeColumn];
+                break;
+            case "Direct Debit":
+                transaction.Details = lineSplit[AccountDetailsColumn];
+                break;
+            case "Automatic Payment":
+                transaction.Details = lineSplit[AccountDetailsColumn];
+                break;
+            default:
+                return null;
+        }
+
+        return transaction;
+    }
+}
