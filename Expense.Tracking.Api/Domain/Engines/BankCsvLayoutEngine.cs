@@ -1,4 +1,6 @@
-﻿namespace Expense.Tracking.Api.Domain.Engines;
+﻿using Expense.Tracking.Api.Domain.Models;
+
+namespace Expense.Tracking.Api.Domain.Engines;
 
 public class BankCsvLayoutEngine
 {
@@ -10,11 +12,11 @@ public class BankCsvLayoutEngine
     private const int AccountAmountColumn = 5;
     private const int AccountDateColumn = 6;
 
-    public async Task<IEnumerable<Transaction>> Execute(Stream stream, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<ImportTransaction>> Execute(Stream stream, CancellationToken cancellationToken = default)
     {
         using StreamReader reader = new StreamReader(stream);
 
-        var transactionList = new List<Transaction>();
+        var transactionList = new List<ImportTransaction>();
         var isHeader = true;
 
         string? line = string.Empty;
@@ -45,11 +47,11 @@ public class BankCsvLayoutEngine
         return transactionList;
     }
 
-    internal Transaction StringToTransaction(string text)
+    internal ImportTransaction StringToTransaction(string text)
     {
         var lineSplit = text.Split(',');
 
-        var transaction = new Transaction();
+        var transaction = new ImportTransaction();
         transaction.Type = lineSplit[AccountTypeColumn];
         transaction.Amount = decimal.Parse(lineSplit[AccountAmountColumn]);
         transaction.Date = DateOnly.Parse(lineSplit[AccountDateColumn]);
