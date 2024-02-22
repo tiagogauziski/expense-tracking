@@ -25,11 +25,29 @@ public class ExpenseContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        CategoryEntityConfiguration(modelBuilder);
         TransactionEntityConfiguration<Transaction>(modelBuilder);
         ImportEntityConfiguration(modelBuilder);
         ImportTransactionEntityConfiguration(modelBuilder);
 
         base.OnModelCreating(modelBuilder);
+    }
+
+    private static void CategoryEntityConfiguration(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Category>()
+            .HasKey(category => category.Id);
+
+        modelBuilder.Entity<Category>()
+            .Property(category => category.Name)
+            .HasMaxLength(50)
+            .IsRequired(true);
+
+        modelBuilder.Entity<Category>()
+            .HasOne(category => category.Parent)
+            .WithMany(category => category.Children)
+            .HasForeignKey(category => category.ParentId)
+            .IsRequired(false);
     }
 
     private static void ImportEntityConfiguration(ModelBuilder modelBuilder)
@@ -70,8 +88,9 @@ public class ExpenseContext : DbContext
             .IsRequired(true);
 
         modelBuilder.Entity<Transaction>()
-            .Property(transaction => transaction.Category)
-            .HasMaxLength(100)
+            .HasOne(transaction => transaction.Category)
+            .WithMany()
+            .HasForeignKey(e => e.CategoryId)
             .IsRequired(false);
 
         modelBuilder.Entity<Transaction>()

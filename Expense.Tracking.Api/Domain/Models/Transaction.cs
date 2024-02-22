@@ -15,7 +15,9 @@ public record Transaction
     /// <summary>
     /// Gets or sets the category where the expense is located.
     /// </summary>
-    public string? Category { get; set; }
+    public Category? Category { get; set; }
+
+    public Guid? CategoryId { get; set; }
 
     /// <summary>
     /// Gets or sets the details of the transaction. Helpful to indetify where the transaction was performed.
