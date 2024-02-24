@@ -23,5 +23,5 @@ public class Import
     /// <summary>
     /// The transactions that were imported.
     /// </summary>
-    public ICollection<ImportTransaction> Transactions { get; set; } = new List<ImportTransaction>();
+    public ICollection<ImportTransaction>? Transactions { get; set; }
 }

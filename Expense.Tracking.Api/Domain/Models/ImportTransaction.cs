@@ -7,8 +7,6 @@ public record ImportTransaction : Transaction
     /// </summary>
     public bool IsDuplicate { get; set; }
 
-    public Import Import { get; set; } = null!;
- 
     public Guid ImportId { get; set; }
 
 }

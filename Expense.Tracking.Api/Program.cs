@@ -1,3 +1,5 @@
+﻿using Expense.Tracking.Api.Infrastrucure.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace Expense.Tracking.Api;
 
@@ -8,13 +10,22 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.Services.AddDbContext<ExpenseContext>(options =>
+        {
+            var folder = Environment.SpecialFolder.LocalApplicationData;
+            var path = Environment.GetFolderPath(folder);
+            var dbPath = Path.Join(path, "expenses.db");
+
+            options.UseSqlite($"Data Source={dbPath}");
+        });
+
         var app = builder.Build();
+
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -27,8 +38,15 @@ public class Program
 
         app.UseAuthorization();
 
-
         app.MapControllers();
+
+        // Ensure the database is created and seeded with data
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            var context = services.GetRequiredService<ExpenseContext>();
+            context.Database.EnsureCreated();
+        }
 
         app.Run();
     }
