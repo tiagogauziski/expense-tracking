@@ -1,7 +1,12 @@
 ﻿namespace Expense.Tracking.Api.Domain.Models;
 
-public record ImportTransaction : Transaction
+public record ImportTransaction : BaseTransaction
 {
+    /// <summary>
+    /// Unique identifier of the transaction.
+    /// </summary>
+    public Guid Id { get; set; }
+
     /// <summary>
     /// Gets or sets whether the entry is a duplicate of an existing imported transaction.
     /// </summary>

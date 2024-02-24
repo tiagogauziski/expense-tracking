@@ -87,7 +87,7 @@ public class ExpenseContext : DbContext
     }
 
     private static void BaseTransactionEntityConfiguration<T>(ModelBuilder modelBuilder)
-        where T : Transaction
+        where T : BaseTransaction
     {
         modelBuilder.Entity<T>()
             .Property(transaction => transaction.Type)
