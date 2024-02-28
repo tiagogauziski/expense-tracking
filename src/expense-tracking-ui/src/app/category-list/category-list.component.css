@@ -1,0 +1,12 @@
+.category-list-container {
+    padding: 30px;
+}
+
+.category-button-container {
+    padding-top: 30px;
+    padding-left: 30px;
+}
+
+.category-button+.category-button {
+    margin-left: 8px;
+}
