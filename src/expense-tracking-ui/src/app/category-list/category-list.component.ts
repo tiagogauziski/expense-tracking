@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { CategoryService } from '../category.service';
-import { Category } from '../category.model';
+import { CategoryService } from '../services/category.service';
+import { Category } from '../models/category.model';
 import { MatTableModule } from '@angular/material/table';
 import { MatButton } from '@angular/material/button';
 
