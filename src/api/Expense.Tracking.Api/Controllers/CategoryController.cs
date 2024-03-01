@@ -49,7 +49,7 @@ public class CategoryController : ControllerBase
             return BadRequest();
         }
 
-        if (_context.Category.Any(category => category.Name == category.Name && category.Id != id))
+        if (_context.Category.Any(dbCategory => dbCategory.Name == category.Name && dbCategory.Id != id))
         {
             return Conflict("Category already exists");
         }
@@ -80,7 +80,7 @@ public class CategoryController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Category>> PostCategory(Category category)
     {
-        if (_context.Category.Any(category => category.Name == category.Name))
+        if (_context.Category.Any(dbCategory => dbCategory.Name == category.Name))
         {
             return Conflict("Category already exists");
         }
