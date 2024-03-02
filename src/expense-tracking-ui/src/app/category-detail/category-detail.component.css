@@ -1,0 +1,11 @@
+.category-container {
+    padding: 30px;
+}
+
+.category-button-container {
+    padding-left: 30px;
+}
+
+.category-button+.category-button {
+    margin-left: 8px;
+}

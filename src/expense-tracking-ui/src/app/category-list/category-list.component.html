@@ -1,14 +1,11 @@
 <div class="category-button-container">
-    <button mat-raised-button class="category-button">
-        Add data
-    </button>
-    <button mat-raised-button class="category-button">
-        Remove data
+    <button mat-raised-button class="category-button" (click)="addCategory()">
+        Add
     </button>
 </div>
 
 <div class="category-list-container">
-    <table mat-table [dataSource]="categories" class=" mat-elevation-z8">
+    <table mat-table [dataSource]="categories" class="mat-elevation-z8">
         <!-- Name Column -->
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Name </th>

@@ -1,0 +1,18 @@
+<form [formGroup]="categoryForm" class="category-container">
+    <mat-form-field>
+        <mat-label>Category Name</mat-label>
+        <input matInput formControlName="name" required>
+        @if (categoryForm.get("name")?.invalid) {
+        <mat-error>Name is required.</mat-error>
+        }
+    </mat-form-field>
+</form>
+<div class="category-button-container">
+    <button type="submit" mat-raised-button class="category-button" color="primary" (click)="onSubmit()"[disabled]="!categoryForm.valid">
+        Submit
+    </button>
+
+    <button mat-raised-button class="category-button" color="warn">
+        Delete
+    </button>
+</div>
