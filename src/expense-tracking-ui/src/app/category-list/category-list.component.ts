@@ -27,6 +27,10 @@ export class CategoryListComponent {
   }
 
   addCategory() {
-    this.router.navigate(["/categories/add"])
+    this.router.navigate(["/categories/add"]);
+  }
+
+  editCategory() {
+    this.router.navigate(["/categories/edit"]);
   }
 }
