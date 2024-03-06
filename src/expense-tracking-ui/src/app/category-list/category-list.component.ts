@@ -21,16 +21,18 @@ export class CategoryListComponent {
     private readonly router: Router) { }
 
   ngOnInit(): void {
-    this.categoryService.getCategories().subscribe(categories => {
-      this.categories = categories;
-    })
+    this.categoryService
+      .getCategories()
+      .subscribe(categories => {
+        this.categories = categories;
+      })
   }
 
   addCategory() {
     this.router.navigate(["/categories/add"]);
   }
 
-  editCategory() {
-    this.router.navigate(["/categories/edit"]);
+  editCategory(category: Category) {
+    this.router.navigate(["/categories/edit", category.id]);
   }
 }

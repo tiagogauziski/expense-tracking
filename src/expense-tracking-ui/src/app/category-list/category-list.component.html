@@ -14,7 +14,7 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="category-row"
-            (click)="editCategory()">
+            (click)="editCategory(row)">
         </tr>
     </table>
 </div>
