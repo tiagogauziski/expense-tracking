@@ -8,11 +8,13 @@
     </mat-form-field>
 </form>
 <div class="category-button-container">
-    <button type="submit" mat-raised-button class="category-button" color="primary" (click)="onSubmit()" [disabled]="!categoryForm.valid">
+    <button type="submit" mat-raised-button class="category-button" color="primary" (click)="onSubmit()"
+        [disabled]="!categoryForm.valid">
         Submit
     </button>
 
-    <button mat-raised-button class="category-button" color="warn" (click)="onDelete()">
+    <button mat-raised-button class="category-button" color="warn" (click)="onDelete()"
+        [hidden]="categoryId == undefined">
         Delete
     </button>
 </div>
