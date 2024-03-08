@@ -3,12 +3,17 @@
 /// <summary>
 /// Represents the import of transactions from a bank statement.
 /// </summary>
-public class Import
+public record Import
 {
     /// <summary>
     /// Unique identifier for the import.
     /// </summary>
     public Guid Id { get; set; }
+
+    /// <summary>
+    /// The name to identify the import of transaction entries.
+    /// </summary>
+    public required string Name { get; set; }
 
     /// <summary>
     /// The layout used to import the transactions.
