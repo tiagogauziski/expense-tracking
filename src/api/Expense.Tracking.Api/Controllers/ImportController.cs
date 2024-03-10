@@ -1,4 +1,6 @@
-﻿using Expense.Tracking.Api.Domain.Models;
+﻿using Expense.Tracking.Api.Contracts;
+using Expense.Tracking.Api.Domain.Engines;
+using Expense.Tracking.Api.Domain.Models;
 using Expense.Tracking.Api.Infrastrucure.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -70,8 +72,24 @@ public class ImportController : ControllerBase
 
     [ProducesResponseType(StatusCodes.Status201Created)]
     [HttpPost]
-    public async Task<ActionResult<Import>> PostImport(Import import)
+    public async Task<ActionResult<Import>> PostImport([FromForm] CreateImport request)
     {
+        if (request.File is null)
+        {
+            return BadRequest("File is required");
+        }
+        
+        var import = new Import
+        {
+            Name = request.Name,
+            Layout = request.Layout,
+            CreatedAt = DateTimeOffset.UtcNow
+        };
+
+        BankCsvLayoutEngine engine = new BankCsvLayoutEngine();
+        var transactions = await engine.Execute(request.File.OpenReadStream());
+        import.Transactions = transactions.ToList();
+
         _context.Imports.Add(import);
         await _context.SaveChangesAsync();
 

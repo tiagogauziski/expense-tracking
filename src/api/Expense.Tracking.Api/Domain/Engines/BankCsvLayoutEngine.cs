@@ -54,7 +54,7 @@ public class BankCsvLayoutEngine
         var transaction = new ImportTransaction();
         transaction.Type = lineSplit[AccountTypeColumn];
         transaction.Amount = decimal.Parse(lineSplit[AccountAmountColumn]);
-        transaction.Date = DateOnly.Parse(lineSplit[AccountDateColumn]);
+        transaction.Date = DateOnly.ParseExact(lineSplit[AccountDateColumn], "dd/MM/yyyy");
         switch (transaction.Type)
         {
             case "Visa Purchase":
