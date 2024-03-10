@@ -28,7 +28,10 @@ public class ImportController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Import>> GetImport(Guid id)
     {
-        var import = await _context.Imports.FindAsync(id);
+        var import = await _context.Imports
+            .Include(import => import.Transactions)
+            .Where(import => import.Id == id)
+            .FirstOrDefaultAsync();
 
         if (import == null)
         {
