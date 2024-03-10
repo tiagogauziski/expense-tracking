@@ -27,4 +27,12 @@ export class ImportListComponent {
         this.imports = imports;
       })
   }
+
+  import(): void {
+    this.router.navigate(["imports/file"])
+  }
+
+  editImport(model: Import) {
+    this.router.navigate(["/imports/detail", model.id]);
+  }
 }

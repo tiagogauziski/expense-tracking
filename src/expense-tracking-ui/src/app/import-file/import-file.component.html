@@ -1,0 +1,25 @@
+<form [formGroup]="importFileForm" class="import-container">
+    <mat-form-field>
+        <mat-label>Import Name</mat-label>
+        <input matInput formControlName="name">
+        @if (importFileForm.get("name")?.invalid) {
+        <mat-error>Name is required.</mat-error>
+        }
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Layout</mat-label>
+        <mat-select formControlName="layout">
+            <mat-option value="bank-anz-checking-csv">ANZ Bank Checking Account - CSV</mat-option>
+            <mat-option value="bank-anz-creditcard-csv">ANZ Bank Credit Card - CSV</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+    <mat-label>File: {{importFileSelection?.name}}</mat-label>
+    <input hidden (change)="onFileSelected()" #fileInput type="file" id="file">
+</form>
+<div class="import-button-container">
+    <button type="submit" mat-raised-button class="import-button" color="primary" (click)="onSubmit()"
+        [disabled]="!importFileForm.valid || importFileSelection?.name == ''">
+        Import
+    </button>
+</div>

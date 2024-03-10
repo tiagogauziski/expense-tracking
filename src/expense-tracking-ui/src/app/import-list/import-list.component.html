@@ -1,11 +1,11 @@
 <div class="import-button-container">
-    <button mat-raised-button class="import-button" >
-        Add
+    <button mat-raised-button class="import-button" (click)="import()">
+        Import
     </button>
 </div>
 
 <div class="import-list-container">
-    <table mat-table  class="mat-elevation-z8">
+    <table mat-table [dataSource]="imports" class="mat-elevation-z8">
         <!-- Name Column -->
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -23,7 +23,7 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="import-row">
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="import-row" (click)="editImport(row)">
         </tr>
     </table>
 </div>
