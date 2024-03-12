@@ -12,6 +12,8 @@ import { ImportService } from '../services/import.service';
 import { Import } from '../models/import.model';
 import { MatTableModule } from '@angular/material/table';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import { ImportCategorySelectionDialogComponent } from '../import-category-selection-dialog/import-category-selection-dialog.component';
+import { Transaction } from '../models/transaction.model';
 
 @Component({
   selector: 'app-import-detail',
@@ -48,6 +50,19 @@ export class ImportDetailComponent {
             this.importModel = model;
             this.importForm.patchValue(this.importModel);
           });
+      }
+    });
+  }
+
+  onTransactionClick(row: Transaction): void {
+    const dialogRef = this.dialog.open(ImportCategorySelectionDialogComponent, {
+      data: { transaction: row },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`The dialog was closed with result: ${result}`);
+      if (result != undefined) {
+        // TODO: save import transaction category selection
       }
     });
   }

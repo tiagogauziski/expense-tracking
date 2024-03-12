@@ -23,7 +23,7 @@
 
         <ng-container matColumnDef="category">
             <th mat-header-cell *matHeaderCellDef> Category </th>
-            <td mat-cell *matCellDef="let element"> {{element.category?.name}} </td>
+            <td mat-cell *matCellDef="let element"> @if(element.category != undefined) { {{element.category?.name}} } @else { (Unassigned) }</td>
         </ng-container>
 
         <ng-container matColumnDef="details">
@@ -42,7 +42,7 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="transactionColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: transactionColumns;" class="transaction-row">
+        <tr mat-row *matRowDef="let row; columns: transactionColumns;" class="transaction-row" (click)="onTransactionClick(row)">
         </tr>
     </table>
 </div>
