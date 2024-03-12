@@ -12,6 +12,11 @@ public record ImportTransaction : BaseTransaction
     /// </summary>
     public bool IsDuplicate { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether the entry has been selected to be imported.
+    /// </summary>
+    public bool IsSelected { get; set; }
+
     public Guid ImportId { get; set; }
 
 }

@@ -75,6 +75,14 @@ public class ExpenseContext : DbContext
         modelBuilder.Entity<ImportTransaction>()
             .HasKey(transaction => transaction.Id);
 
+        modelBuilder.Entity<ImportTransaction>()
+            .Property(transaction => transaction.IsDuplicate)
+            .IsRequired(true);
+
+        modelBuilder.Entity<ImportTransaction>()
+            .Property(transaction => transaction.IsSelected)
+            .IsRequired(true);
+
         BaseTransactionEntityConfiguration<ImportTransaction>(modelBuilder);
     }
 
@@ -115,6 +123,11 @@ public class ExpenseContext : DbContext
             .HasMaxLength(10)
             .IsRequired(false)
             .HasDefaultValue("NZD");
+
+        modelBuilder.Entity<T>()
+            .Property(transaction => transaction.Reference)
+            .HasMaxLength(100)
+            .IsRequired(false);
     }
 
 }

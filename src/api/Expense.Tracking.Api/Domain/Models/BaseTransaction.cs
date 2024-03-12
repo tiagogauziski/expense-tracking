@@ -38,5 +38,10 @@
         /// Gets or sets the currency code. Defaults to NZD.
         /// </summary>
         public string? CurrencyCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference for the entry. Can be used to make sure we don't import duplicate transactions.
+        /// </summary>
+        public string? Reference { get; set; }
     }
 }
