@@ -2,13 +2,15 @@
 <mat-dialog-content>
     <mat-form-field>
         <mat-label>Category</mat-label>
-        <mat-select [(ngModel)]="selectedCategory">
-            <mat-option value="1">Supermarket</mat-option>
-            <mat-option value="2">Rent</mat-option>
+        <mat-select [(value)]="selectedCategory">
+            <mat-option >(Unassigned)</mat-option>
+            @for (item of data.categoryList; track $index) {
+            <mat-option [value]="item">{{item.name}}</mat-option>
+            }
         </mat-select>
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="selectedCategory" cdkFocusInitial>Save</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="selectedCategory" cdkFocusInitial>Save</button>
 </mat-dialog-actions>

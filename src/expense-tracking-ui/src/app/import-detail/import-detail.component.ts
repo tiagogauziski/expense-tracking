@@ -12,8 +12,10 @@ import { ImportService } from '../services/import.service';
 import { Import } from '../models/import.model';
 import { MatTableModule } from '@angular/material/table';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { ImportCategorySelectionDialogComponent } from '../import-category-selection-dialog/import-category-selection-dialog.component';
+import { ImportCategorySelectionDialogComponent, ImportCategorySelectionDialogData } from '../import-category-selection-dialog/import-category-selection-dialog.component';
 import { Transaction } from '../models/transaction.model';
+import { Category } from '../models/category.model';
+import { CategoryService } from '../services/category.service';
 
 @Component({
   selector: 'app-import-detail',
@@ -31,15 +33,22 @@ export class ImportDetailComponent {
     createdAt: new FormControl('', []),
   });
   transactionColumns: string[] = ['type', 'category', 'details', 'amount', 'date'];
+  categoryList?: Category[];
 
   constructor(
     private readonly importService: ImportService,
+    private readonly categoryService: CategoryService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.categoryService.getCategories()
+      .subscribe(categoryList => {
+        this.categoryList = categoryList;
+      });
+
     this.activatedRoute.params.subscribe(params => {
       this.importId = params['id'];
 
@@ -56,14 +65,15 @@ export class ImportDetailComponent {
 
   onTransactionClick(row: Transaction): void {
     const dialogRef = this.dialog.open(ImportCategorySelectionDialogComponent, {
-      data: { transaction: row },
+      data: {
+        categoryList: this.categoryList,
+        selectedTransaction: row
+      } as ImportCategorySelectionDialogData,
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`The dialog was closed with result: ${result}`);
-      if (result != undefined) {
-        // TODO: save import transaction category selection
-      }
+      row.category = result;
     });
   }
 }
