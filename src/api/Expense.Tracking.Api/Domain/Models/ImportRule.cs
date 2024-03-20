@@ -1,6 +1,6 @@
 ﻿namespace Expense.Tracking.Api.Domain.Models
 {
-    public class ImportRule
+    public record ImportRule
     {
         /// <summary>
         /// Gets or sets the unique identifier for the import rule.
@@ -23,8 +23,13 @@
         public string TypeCondition { get; set; }
 
         /// <summary>
-        /// Gets or sets the category that will be assigned to the transaction.
+        /// Gets or sets the category id that will be assigned to the transaction.
         /// </summary>
         public int CategoryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the category.
+        /// </summary>
+        public Category Category { get; set; }
     }
 }

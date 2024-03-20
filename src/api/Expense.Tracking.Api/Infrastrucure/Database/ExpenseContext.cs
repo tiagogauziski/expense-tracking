@@ -21,8 +21,9 @@ public class ExpenseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         CategoryEntityConfiguration(modelBuilder);
-        TransactionEntityConfiguration<Transaction>(modelBuilder);
+        TransactionEntityConfiguration(modelBuilder);
         ImportEntityConfiguration(modelBuilder);
+        ImportRuleEntityConfiguration(modelBuilder);
         ImportTransactionEntityConfiguration(modelBuilder);
 
         base.OnModelCreating(modelBuilder);
@@ -76,19 +77,25 @@ public class ExpenseContext : DbContext
             .HasKey(importRule => importRule.Id);
 
         modelBuilder.Entity<ImportRule>()
-            .Property(importRule => importRule.Layout)
+            .Property(importRule => importRule.Name)
             .HasMaxLength(50)
             .IsRequired(true);
 
         modelBuilder.Entity<ImportRule>()
-            .Property(import => import.CreatedAt)
-            .HasDefaultValue(DateTimeOffset.UtcNow);
+            .Property(importRule => importRule.DetailsCondition)
+            .HasMaxLength(200)
+            .IsRequired(true);
 
         modelBuilder.Entity<ImportRule>()
-            .HasMany(import => import.Transactions)
-            .WithOne()
-            .HasForeignKey(e => e.ImportId)
-            .IsRequired();
+            .Property(importRule => importRule.TypeCondition)
+            .HasMaxLength(200)
+            .IsRequired(false);
+
+        modelBuilder.Entity<ImportRule>()
+            .HasOne(importRule => importRule.Category)
+            .WithMany()
+            .HasForeignKey(importRule => importRule.CategoryId)
+            .IsRequired(true);
     }
 
     private static void ImportTransactionEntityConfiguration(ModelBuilder modelBuilder)
@@ -107,7 +114,7 @@ public class ExpenseContext : DbContext
         BaseTransactionEntityConfiguration<ImportTransaction>(modelBuilder);
     }
 
-    private static void TransactionEntityConfiguration<T>(ModelBuilder modelBuilder)
+    private static void TransactionEntityConfiguration(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Transaction>()
             .HasKey(transaction => transaction.Id);
