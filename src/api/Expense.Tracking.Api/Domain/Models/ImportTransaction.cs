@@ -5,7 +5,7 @@ public record ImportTransaction : BaseTransaction
     /// <summary>
     /// Unique identifier of the transaction.
     /// </summary>
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     /// Gets or sets whether the entry is a duplicate of an existing imported transaction.
@@ -17,6 +17,6 @@ public record ImportTransaction : BaseTransaction
     /// </summary>
     public bool IsSelected { get; set; }
 
-    public Guid ImportId { get; set; }
+    public int ImportId { get; set; }
 
 }

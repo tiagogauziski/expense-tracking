@@ -26,7 +26,7 @@ public class ImportController : ControllerBase
 
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("{id}")]
-    public async Task<ActionResult<Import>> GetImport(Guid id)
+    public async Task<ActionResult<Import>> GetImport(int id)
     {
         var import = await _context.Imports
             .Include(import => import.Transactions)
@@ -45,7 +45,7 @@ public class ImportController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutImport(Guid id, Import import)
+    public async Task<IActionResult> PutImport(int id, Import import)
     {
         if (id != import.Id)
         {
@@ -102,7 +102,7 @@ public class ImportController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteImport(Guid id)
+    public async Task<IActionResult> DeleteImport(int id)
     {
         var import = await _context.Imports.FindAsync(id);
         if (import == null)
@@ -116,7 +116,7 @@ public class ImportController : ControllerBase
         return NoContent();
     }
 
-    private bool ImportExists(Guid id)
+    private bool ImportExists(int id)
     {
         return _context.Imports.Any(e => e.Id == id);
     }

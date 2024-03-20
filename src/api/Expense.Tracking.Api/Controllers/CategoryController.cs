@@ -25,7 +25,7 @@ public class CategoryController : ControllerBase
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<Category>> GetCategory(Guid id)
+    public async Task<ActionResult<Category>> GetCategory(int id)
     {
         var category = await _context.Category.FindAsync(id);
 
@@ -42,7 +42,7 @@ public class CategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutCategory(Guid id, Category category)
+    public async Task<IActionResult> PutCategory(int id, Category category)
     {
         if (id != category.Id)
         {
@@ -94,7 +94,7 @@ public class CategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCategory(Guid id)
+    public async Task<IActionResult> DeleteCategory(int id)
     {
         var category = await _context.Category.FindAsync(id);
         if (category == null)
@@ -108,7 +108,7 @@ public class CategoryController : ControllerBase
         return NoContent();
     }
 
-    private bool CategoryExists(Guid id)
+    private bool CategoryExists(int id)
     {
         return _context.Category.Any(e => e.Id == id);
     }

@@ -8,7 +8,7 @@ public record Import
     /// <summary>
     /// Unique identifier for the import.
     /// </summary>
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     /// The name to identify the import of transaction entries.

@@ -17,7 +17,7 @@ public class ImportTransactionController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ImportTransaction>>> GetImportTransactions(Guid importId)
+    public async Task<ActionResult<IEnumerable<ImportTransaction>>> GetImportTransactions(int importId)
     {
         return await _context.ImportTransactions
             .Where(transactions => transactions.ImportId == importId)
@@ -26,7 +26,7 @@ public class ImportTransactionController : ControllerBase
 
     // GET: api/ImportTransactions/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<ImportTransaction>> GetImportTransaction(Guid importId, Guid id)
+    public async Task<ActionResult<ImportTransaction>> GetImportTransaction(int importId, int id)
     {
         var importTransaction = await _context.ImportTransactions
             .Where(transactions => transactions.ImportId == importId && transactions.Id == id)
@@ -41,7 +41,7 @@ public class ImportTransactionController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutImportTransaction(Guid importId, Guid id, ImportTransaction importTransaction)
+    public async Task<IActionResult> PutImportTransaction(int importId, int id, ImportTransaction importTransaction)
     {
         if (id != importTransaction.Id)
         {
@@ -80,7 +80,7 @@ public class ImportTransactionController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<ImportTransaction>> PostImportTransaction(Guid importId, ImportTransaction importTransaction)
+    public async Task<ActionResult<ImportTransaction>> PostImportTransaction(int importId, ImportTransaction importTransaction)
     {
         if (!ImportExists(importId))
         {
@@ -100,7 +100,7 @@ public class ImportTransactionController : ControllerBase
 
     // DELETE: api/ImportTransactions/5
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteImportTransaction(Guid importId, Guid id)
+    public async Task<IActionResult> DeleteImportTransaction(int importId, int id)
     {
         if (!ImportExists(importId))
         {
@@ -121,12 +121,12 @@ public class ImportTransactionController : ControllerBase
         return NoContent();
     }
 
-    private bool ImportTransactionExists(Guid id)
+    private bool ImportTransactionExists(int id)
     {
         return _context.ImportTransactions.Any(e => e.Id == id);
     }
 
-    private bool ImportExists(Guid importId)
+    private bool ImportExists(int importId)
     {
         return _context.Imports.Any(e => e.Id == importId);
     }

@@ -23,7 +23,7 @@ public class TransactionController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Transaction>> GetTransaction(Guid id)
+    public async Task<ActionResult<Transaction>> GetTransaction(int id)
     {
         var transaction = await _context.Transactions.FindAsync(id);
 
@@ -36,7 +36,7 @@ public class TransactionController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutTransaction(Guid id, Transaction transaction)
+    public async Task<IActionResult> PutTransaction(int id, Transaction transaction)
     {
         if (id != transaction.Id)
         {
@@ -74,7 +74,7 @@ public class TransactionController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteTransaction(Guid id)
+    public async Task<IActionResult> DeleteTransaction(int id)
     {
         var transaction = await _context.Transactions.FindAsync(id);
         if (transaction == null)
@@ -88,7 +88,7 @@ public class TransactionController : ControllerBase
         return NoContent();
     }
 
-    private bool TransactionExists(Guid id)
+    private bool TransactionExists(int id)
     {
         return _context.Transactions.Any(e => e.Id == id);
     }

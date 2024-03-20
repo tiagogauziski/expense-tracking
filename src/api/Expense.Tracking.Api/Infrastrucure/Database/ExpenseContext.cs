@@ -70,6 +70,27 @@ public class ExpenseContext : DbContext
             .IsRequired();
     }
 
+    private static void ImportRuleEntityConfiguration(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<ImportRule>()
+            .HasKey(importRule => importRule.Id);
+
+        modelBuilder.Entity<ImportRule>()
+            .Property(importRule => importRule.Layout)
+            .HasMaxLength(50)
+            .IsRequired(true);
+
+        modelBuilder.Entity<ImportRule>()
+            .Property(import => import.CreatedAt)
+            .HasDefaultValue(DateTimeOffset.UtcNow);
+
+        modelBuilder.Entity<ImportRule>()
+            .HasMany(import => import.Transactions)
+            .WithOne()
+            .HasForeignKey(e => e.ImportId)
+            .IsRequired();
+    }
+
     private static void ImportTransactionEntityConfiguration(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ImportTransaction>()

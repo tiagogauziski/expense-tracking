@@ -1,4 +1,5 @@
 ﻿using Expense.Tracking.Api.Domain.Models;
+using System.Linq.Dynamic.Core;
 
 namespace Expense.Tracking.Api.Domain.Engines;
 
@@ -11,6 +12,17 @@ public class BankCsvLayoutEngine
     private const int AccountReferenceColumn = 4;
     private const int AccountAmountColumn = 5;
     private const int AccountDateColumn = 6;
+
+    private readonly IEnumerable<ImportRule> importRules;
+
+    public BankCsvLayoutEngine(IEnumerable<ImportRule> importRules)
+    {
+        this.importRules = importRules;
+    }
+
+    public BankCsvLayoutEngine() : this([])
+    {
+    }
 
     public async Task<IEnumerable<ImportTransaction>> Execute(Stream stream, CancellationToken cancellationToken = default)
     {
@@ -44,7 +56,22 @@ public class BankCsvLayoutEngine
             transactionList.Add(transaction);
         }
 
-        return transactionList;
+        return ExecuteImportRules(transactionList);
+    }
+
+    internal IEnumerable<ImportTransaction> ExecuteImportRules(IEnumerable<ImportTransaction> importTransactions)
+    {
+        foreach (var importRule in importRules) 
+        {
+            var query = importTransactions.AsQueryable();
+            query = query.Where(importRule.DetailsCondition);
+            query.ToList().ForEach(transaction =>
+            {
+                transaction.CategoryId = importRule.CategoryId;
+            });
+        }
+
+        return importTransactions;
     }
 
     internal ImportTransaction StringToTransaction(string text)
@@ -64,8 +91,12 @@ public class BankCsvLayoutEngine
             case "Eft-Pos":
                 transaction.Details = lineSplit[AccountDetailsColumn];
                 transaction.Owner = lineSplit[AccountParticularsColumn] + lineSplit[AccountCodeColumn];
+                transaction.Reference = lineSplit[AccountReferenceColumn];
                 break;
             case "Direct Debit":
+                transaction.Details = lineSplit[AccountDetailsColumn];
+                break;
+            case "Payment":
                 transaction.Details = lineSplit[AccountDetailsColumn];
                 break;
             case "Automatic Payment":

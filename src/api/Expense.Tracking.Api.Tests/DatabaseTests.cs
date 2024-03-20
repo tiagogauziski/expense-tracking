@@ -42,24 +42,28 @@ public class DatabaseTests
         var imports = _expenseContext.Imports.ToList();
 
         Assert.Single(imports);
-        Assert.Equal(97, imports.First().Transactions.Count);
+        Assert.Equal(103, imports.First().Transactions.Count);
     }
 
     [Fact]
     public async Task ApplyImportRules()
     {
-        var importEngine = new BankCsvLayoutEngine();
+        int rentId = 1;
+        var importRuleList = new List<ImportRule>
+        {
+            new ImportRule
+            {
+                Name = "Rent",
+                DetailsCondition = "Type == \"Automatic Payment\" && Details.Contains(\"Faceup Rent\")",
+                CategoryId = rentId
+            }
+        };
+
+        var importEngine = new BankCsvLayoutEngine(importRuleList);
 
         var filePath = @"C:\Dev\TransactionData\06-0222-0838845-00_Transactions_2024-01-14_2024-02-12.csv";
         var transactions = await importEngine.Execute(File.OpenRead(filePath));
 
-
-        IQueryable<ImportTransaction> query = transactions.AsQueryable();
-
-        string userInput = "Type == \"Automatic Payment\" && Details == \"Faceup Rent\"";
-        query = query.Where(userInput);
-
-        // Execute the combined query
-        IEnumerable<ImportTransaction> results = query.ToList();
+        Assert.Equal(4, transactions.Where(transaction => transaction.CategoryId == rentId).Count());
     }
 }
