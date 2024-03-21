@@ -54,7 +54,7 @@ public class DatabaseTests
             new ImportRule
             {
                 Name = "Rent",
-                DetailsCondition = "Type == \"Automatic Payment\" && Details.Contains(\"Faceup Rent\")",
+                Condition = "Type == \"Automatic Payment\" && Details.Contains(\"Faceup Rent\")",
                 CategoryId = rentId
             }
         };

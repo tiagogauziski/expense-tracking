@@ -82,14 +82,9 @@ public class ExpenseContext : DbContext
             .IsRequired(true);
 
         modelBuilder.Entity<ImportRule>()
-            .Property(importRule => importRule.DetailsCondition)
+            .Property(importRule => importRule.Condition)
             .HasMaxLength(200)
             .IsRequired(true);
-
-        modelBuilder.Entity<ImportRule>()
-            .Property(importRule => importRule.TypeCondition)
-            .HasMaxLength(200)
-            .IsRequired(false);
 
         modelBuilder.Entity<ImportRule>()
             .HasOne(importRule => importRule.Category)
@@ -157,5 +152,7 @@ public class ExpenseContext : DbContext
             .HasMaxLength(100)
             .IsRequired(false);
     }
+
+public DbSet<Expense.Tracking.Api.Domain.Models.ImportRule> ImportRule { get; set; } = default!;
 
 }

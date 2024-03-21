@@ -15,12 +15,7 @@
         /// <summary>
         /// Gets or sets a condition that will be used to match transactions. The condition will be applied to the Details property of the transaction.
         /// </summary>
-        public string DetailsCondition { get; set; }
-
-        /// <summary>
-        /// Gets or sets a condition that will be used to match transactions. The condition will be applied to the Type property of the transaction.
-        /// </summary>
-        public string TypeCondition { get; set; }
+        public string Condition { get; set; }
 
         /// <summary>
         /// Gets or sets the category id that will be assigned to the transaction.

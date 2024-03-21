@@ -64,7 +64,7 @@ public class BankCsvLayoutEngine
         foreach (var importRule in importRules) 
         {
             var query = importTransactions.AsQueryable();
-            query = query.Where(importRule.DetailsCondition);
+            query = query.Where(importRule.Condition);
             query.ToList().ForEach(transaction =>
             {
                 transaction.CategoryId = importRule.CategoryId;
