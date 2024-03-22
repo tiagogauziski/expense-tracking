@@ -19,7 +19,9 @@ namespace Expense.Tracking.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ImportRule>>> GetImportRule()
         {
-            return await _context.ImportRule.ToListAsync();
+            return await _context.ImportRule
+                .Include(importRule => importRule.Category)
+                .ToListAsync();
         }
 
         [HttpGet("{id}")]

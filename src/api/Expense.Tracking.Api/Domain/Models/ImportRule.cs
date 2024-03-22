@@ -25,6 +25,6 @@
         /// <summary>
         /// Gets or sets the category.
         /// </summary>
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
     }
 }

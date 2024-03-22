@@ -28,5 +28,5 @@ public record Import
     /// <summary>
     /// The transactions that were imported.
     /// </summary>
-    public ICollection<ImportTransaction>? Transactions { get; set; }
+    public ICollection<ImportTransaction> Transactions { get; set; } = [];
 }

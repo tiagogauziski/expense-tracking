@@ -30,6 +30,7 @@ public class ImportController : ControllerBase
     {
         var import = await _context.Imports
             .Include(import => import.Transactions)
+            .ThenInclude(transaction => transaction.Category)
             .Where(import => import.Id == id)
             .FirstOrDefaultAsync();
 
@@ -89,7 +90,7 @@ public class ImportController : ControllerBase
             CreatedAt = DateTimeOffset.UtcNow
         };
 
-        BankCsvLayoutEngine engine = new BankCsvLayoutEngine();
+        BankCsvLayoutEngine engine = new BankCsvLayoutEngine(await _context.ImportRule.ToListAsync());
         var transactions = await engine.Execute(request.File.OpenReadStream());
         import.Transactions = transactions.ToList();
 
