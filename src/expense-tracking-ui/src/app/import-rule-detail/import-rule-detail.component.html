@@ -1,0 +1,40 @@
+<form [formGroup]="importRuleForm" class="import-rule-container">
+    <mat-form-field>
+        <mat-label>Rule Name</mat-label>
+        <input matInput formControlName="name" required>
+        @if (importRuleForm.get("name")?.invalid) {
+        <mat-error>Rule Name is required.</mat-error>
+        }
+    </mat-form-field>
+    <p>
+        <mat-form-field>
+            <mat-label>Condition</mat-label>
+            <textarea  matInput formControlName="condition" required></textarea>
+            @if (importRuleForm.get("condition")?.invalid) {
+            <mat-error>Condition is required.</mat-error>
+            }
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field>
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="categoryId">
+                @for (category of this.categoryList; track $index) {
+                <mat-option [value]="category.id">{{category.name}}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+    </p>
+    
+</form>
+<div class="import-rule-button-container">
+    <button type="submit" mat-raised-button class="import-rule-button" color="primary" (click)="onSubmit()"
+        [disabled]="!importRuleForm.valid">
+        Submit
+    </button>
+
+    <button mat-raised-button class="import-rule-button" color="warn" (click)="onDelete()"
+        [hidden]="id == undefined">
+        Delete
+    </button>
+</div>

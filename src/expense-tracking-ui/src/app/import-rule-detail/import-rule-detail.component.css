@@ -1,0 +1,18 @@
+.import-rule-container {
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    min-width: 150px;
+}
+
+.import-rule-container mat-form-field {
+    width: 100%;
+}
+
+.import-rule-button-container {
+    padding-left: 30px;
+}
+
+.import-rule-button+.import-rule-button {
+    margin-left: 8px;
+}
