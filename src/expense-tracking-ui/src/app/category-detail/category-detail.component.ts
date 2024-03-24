@@ -22,7 +22,7 @@ export class CategoryDetailComponent implements OnInit {
   NEW_CATEGORY_MESSAGE_DURATION_SECONDS: number = 5;
 
   categoryForm = new FormGroup({
-    id: new FormControl('', []),
+    id: new FormControl('0', []),
     name: new FormControl('', [Validators.required]),
   });
 

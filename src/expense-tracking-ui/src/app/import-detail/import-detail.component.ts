@@ -16,21 +16,26 @@ import { ImportCategorySelectionDialogComponent, ImportCategorySelectionDialogDa
 import { Transaction } from '../models/transaction.model';
 import { Category } from '../models/category.model';
 import { CategoryService } from '../services/category.service';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-import-detail',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButton, MatSelect, MatOption, MatTableModule, DatePipe, CurrencyPipe],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButton, MatSelect, MatOption, MatTableModule, DatePipe, CurrencyPipe, MatCheckboxModule],
   templateUrl: './import-detail.component.html',
   styleUrl: './import-detail.component.css'
 })
 export class ImportDetailComponent {
+  MESSAGE_DURATION_SECONDS: number = 5;
+
   importId: string = "";
   importModel?: Import = undefined;
   importForm = new FormGroup({
     name: new FormControl('', []),
     layout: new FormControl('', []),
     createdAt: new FormControl('', []),
+    isExecuted: new FormControl({value: '', disabled: true}, []),
+    executedAt: new FormControl('', []),
   });
   transactionColumns: string[] = ['type', 'category', 'details', 'amount', 'date'];
   categoryList?: Category[];
@@ -71,9 +76,22 @@ export class ImportDetailComponent {
       } as ImportCategorySelectionDialogData,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`The dialog was closed with result: ${result}`);
-      row.category = result;
+    dialogRef.afterClosed().subscribe(selectedCategory => {
+      console.log(`The dialog was closed with result: ${selectedCategory}`);
+      if (selectedCategory == undefined) {
+        return;
+      }
+      else if (selectedCategory.id == 0){
+        row.categoryId = undefined;
+      }
+      else {
+        row.categoryId = selectedCategory.id;
+      }
+      this.importService.editImportTransaction(this.importId, row.id, row)
+        .subscribe(result => {
+          row.category = selectedCategory;
+          this.snackBar.open("Transaction has been saved successfuly.", undefined, { duration: this.MESSAGE_DURATION_SECONDS * 1000 });
+      })
     });
   }
 }

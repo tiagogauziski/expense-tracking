@@ -2,8 +2,8 @@
 <mat-dialog-content>
     <mat-form-field>
         <mat-label>Category</mat-label>
-        <mat-select [(value)]="selectedCategory">
-            <mat-option >(Unassigned)</mat-option>
+        <mat-select [(value)]="selectedCategory" [compareWith]="compareFn">
+            <mat-option [value]="unassignedCategory">{{unassignedCategory.name}}</mat-option>
             @for (item of data.categoryList; track $index) {
             <mat-option [value]="item">{{item.name}}</mat-option>
             }
@@ -11,6 +11,6 @@
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="onCancel()">Cancel</button>
     <button mat-button [mat-dialog-close]="selectedCategory" cdkFocusInitial>Save</button>
 </mat-dialog-actions>

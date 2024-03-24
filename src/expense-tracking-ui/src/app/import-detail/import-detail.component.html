@@ -9,8 +9,9 @@
     </mat-form-field>
     <mat-form-field>
         <mat-label>Created at</mat-label>
-        <input matInput formControlName="createdAt" readonly="">
+        <input matInput formControlName="createdAt">
     </mat-form-field>
+    <mat-checkbox formControlName="isExecuted">Imported</mat-checkbox>
 </form>
 
 <div class="import-container">
@@ -50,6 +51,6 @@
 
 <div class="import-button-container">
     <button type="submit" mat-raised-button class="import-button" color="primary">
-        Save
+        Import
     </button>
 </div>

@@ -4,6 +4,7 @@ import { Import } from '../models/import.model';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
 import { ImportFile } from '../models/import-file.model';
+import { Transaction } from '../models/transaction.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +35,9 @@ export class ImportService {
 
   deleteImport(ImportId: string): Observable<any> {
     return this.httpClient.delete<any>(`${this.configService.getConfig().baseUrl}/api/import/${ImportId}`);
+  }
+
+  editImportTransaction(importId: string, id: string, model: Transaction): Observable<any> {
+    return this.httpClient.put<Import>(`${this.configService.getConfig().baseUrl}/api/import/${importId}/transaction/${id}`, model);
   }
 }
