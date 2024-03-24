@@ -19,7 +19,9 @@ public class TransactionController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactions()
     {
-        return await _context.Transactions.ToListAsync();
+        return await _context.Transactions
+            .Include(transaction => transaction.Category)
+            .ToListAsync();
     }
 
     [HttpGet("{id}")]
