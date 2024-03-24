@@ -65,6 +65,14 @@ public class ExpenseContext : DbContext
             .HasDefaultValue(DateTimeOffset.UtcNow);
 
         modelBuilder.Entity<Import>()
+            .Property(import => import.IsExecuted)
+            .IsRequired(true);
+
+        modelBuilder.Entity<Import>()
+            .Property(import => import.ExecutedAt)
+            .HasDefaultValue(DateTimeOffset.UtcNow);
+
+        modelBuilder.Entity<Import>()
             .HasMany(import => import.Transactions)
             .WithOne()
             .HasForeignKey(e => e.ImportId)

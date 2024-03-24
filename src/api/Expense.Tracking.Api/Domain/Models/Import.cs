@@ -26,6 +26,16 @@ public record Import
     public DateTimeOffset CreatedAt { get; set; }
 
     /// <summary>
+    /// Gets or sets the value indicating whether the import has been executed.
+    /// </summary>
+    public bool IsExecuted { get; set; }
+
+    /// <summary>
+    /// Gets or sets when the import was executed.
+    /// </summary>
+    public DateTimeOffset ExecutedAt { get; set; }
+
+    /// <summary>
     /// The transactions that were imported.
     /// </summary>
     public ICollection<ImportTransaction> Transactions { get; set; } = [];
