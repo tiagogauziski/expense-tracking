@@ -1,0 +1,22 @@
+.transaction-container {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.transaction-button-container {
+    padding-left: 30px;
+}
+
+.transaction-button+.transaction-button {
+    margin-left: 8px;
+}
+
+tr.transaction-row:hover {
+    background: whitesmoke;
+}
+
+tr.transaction-row:active {
+    background: #efefef;
+}

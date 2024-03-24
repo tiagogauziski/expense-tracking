@@ -7,6 +7,7 @@ import { ImportFileComponent } from './import-file/import-file.component';
 import { ImportDetailComponent } from './import-detail/import-detail.component';
 import { ImportRuleListComponent } from './import-rule-list/import-rule-list.component';
 import { ImportRuleDetailComponent } from './import-rule-detail/import-rule-detail.component';
+import { TransactionListComponent } from './transaction-list/transaction-list.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -19,5 +20,6 @@ export const routes: Routes = [
     { path: 'imports', component: ImportListComponent },
     { path: 'imports/file', component: ImportFileComponent },
     { path: 'imports/detail/:id', component: ImportDetailComponent },
+    { path: 'transactions', component: TransactionListComponent },
     { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
