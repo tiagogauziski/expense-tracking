@@ -4,11 +4,12 @@ import { MatTableModule } from '@angular/material/table';
 import { ImportService } from '../services/import.service';
 import { Router } from '@angular/router';
 import { Import } from '../models/import.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-import-list',
   standalone: true,
-  imports: [MatTableModule, MatButton],
+  imports: [MatTableModule, MatButton, DatePipe],
   templateUrl: './import-list.component.html',
   styleUrl: './import-list.component.css'
 })

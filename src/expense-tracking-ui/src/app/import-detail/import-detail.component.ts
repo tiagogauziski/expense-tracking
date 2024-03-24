@@ -94,4 +94,11 @@ export class ImportDetailComponent {
       })
     });
   }
+
+  onImport() {
+    this.importService.executeImport(this.importId).subscribe(result => {
+      this.snackBar.open("Import has been executed successfully.", undefined, { duration: this.MESSAGE_DURATION_SECONDS * 1000 });
+      this.router.navigate(['transactions']);
+    });
+  }
 }

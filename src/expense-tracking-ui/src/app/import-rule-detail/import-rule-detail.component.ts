@@ -27,7 +27,7 @@ export class ImportRuleDetailComponent {
   categoryList: Category[] = []
 
   importRuleForm = new FormGroup({
-    id: new FormControl('', []),
+    id: new FormControl('0', []),
     name: new FormControl('', [Validators.required]),
     condition: new FormControl('', [Validators.required]),
     categoryId: new FormControl('', [Validators.required]),
