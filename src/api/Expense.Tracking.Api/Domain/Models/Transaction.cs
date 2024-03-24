@@ -2,10 +2,7 @@
 
 public record Transaction : BaseTransaction
 {
-    /// <summary>
-    /// Unique identifier of the transaction.
-    /// </summary>
-    public int Id { get; set; }
+    
 
     public override string ToString()
     {

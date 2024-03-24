@@ -117,6 +117,53 @@ public class ImportController : ControllerBase
         return NoContent();
     }
 
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpPatch("{id}/execute")]
+    public async Task<IActionResult> ExecuteImport(int id)
+    {
+        var import = await _context.Imports
+            .Include(import => import.Transactions)
+            .FirstOrDefaultAsync(import => import.Id == id);
+
+        if (import == null)
+        {
+            return NotFound();
+        }
+
+        if (import.IsExecuted)
+        {
+            return BadRequest("Import has been executed already.");
+        }
+
+        import.IsExecuted = true;
+        import.ExecutedAt = DateTimeOffset.UtcNow;
+
+        // Select only import transactions that have a category.
+        var transactions = import.Transactions.Where(importTransaction => importTransaction.CategoryId is not null).Select(importTransaction =>
+        {
+            return new Transaction()
+            {
+                Amount = importTransaction.Amount,
+                CategoryId = importTransaction.CategoryId,
+                CurrencyCode = importTransaction.CurrencyCode,
+                Date = importTransaction.Date,
+                Details = importTransaction.Details,
+                Owner = importTransaction.Owner,
+                Reference = importTransaction.Reference,
+                Type = importTransaction.Type
+            };
+        });
+
+        // Add transactions to the database.
+        await _context.Transactions.AddRangeAsync(transactions);
+
+        // Save changes.
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
     private bool ImportExists(int id)
     {
         return _context.Imports.Any(e => e.Id == id);

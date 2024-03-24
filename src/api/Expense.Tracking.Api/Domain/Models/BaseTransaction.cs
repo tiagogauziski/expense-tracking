@@ -3,6 +3,11 @@
     public abstract record BaseTransaction
     {
         /// <summary>
+        /// Unique identifier of the transaction.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the type of the transaction. Examples: Purchase, Automatic Payment, Direct Debit, Credit Card
         /// </summary>
         public string Type { get; set; }

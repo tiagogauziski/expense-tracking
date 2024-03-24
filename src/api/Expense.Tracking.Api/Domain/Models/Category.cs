@@ -1,6 +1,6 @@
 ﻿namespace Expense.Tracking.Api.Domain.Models;
 
-public class Category
+public record Category
 {
     public int Id { get; set; }
     
