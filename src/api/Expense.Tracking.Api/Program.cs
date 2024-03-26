@@ -1,5 +1,7 @@
 ﻿using Expense.Tracking.Api.Infrastrucure.Database;
+using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace Expense.Tracking.Api;
 
@@ -10,7 +12,16 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddControllers();
+        builder.Services
+            .AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+            })
+            .AddOData(options =>
+            {
+                options.EnableQueryFeatures();
+            });
 
         builder.Services.AddCors(options =>
         {

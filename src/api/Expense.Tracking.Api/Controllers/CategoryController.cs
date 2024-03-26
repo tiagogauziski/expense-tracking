@@ -1,13 +1,15 @@
 ﻿using Expense.Tracking.Api.Domain.Models;
 using Expense.Tracking.Api.Infrastrucure.Database;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Expense.Tracking.Api.Controllers;
 
 [Route("api/category")]
 [ApiController]
-public class CategoryController : ControllerBase
+public class CategoryController : ODataController
 {
     private readonly ExpenseContext _context;
 
@@ -17,10 +19,11 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet]
+    [EnableQuery]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<Category>>> GetCategory()
+    public IQueryable<Category> GetCategory()
     {
-        return await _context.Category.ToListAsync();
+        return _context.Category;
     }
 
     [HttpGet("{id}")]
