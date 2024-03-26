@@ -9,20 +9,38 @@ import { CategoryService } from '../services/category.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { TransactionService } from '../services/transaction.service';
+import { GetAllTransactionsOptions, TransactionService } from '../services/transaction.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+
+import * as _moment from 'moment';
+// tslint:disable-next-line:no-duplicate-imports
+import { default as _rollupMoment } from 'moment';
+
+const moment = _rollupMoment || _moment;
 
 @Component({
   selector: 'app-transaction-list',
   standalone: true,
-  imports: [MatButton, MatOption, MatTableModule, DatePipe, CurrencyPipe],
+  imports: [MatButton, MatOption, MatTableModule, DatePipe, CurrencyPipe, MatDatepickerModule, MatFormFieldModule, FormsModule, ReactiveFormsModule],
   templateUrl: './transaction-list.component.html',
-  styleUrl: './transaction-list.component.css'
+  styleUrl: './transaction-list.component.css',
+  providers: [provideMomentDateAdapter()]
 })
 export class TransactionListComponent {
   transactionColumns: string[] = ['type', 'category', 'details', 'amount', 'date'];
   transactionList?: Transaction[];
   categoryList?: Category[];
-  
+
+  // filter
+  date = new Date();
+  range = new FormGroup({
+    start: new FormControl<any>(moment().startOf('month'), [Validators.required]),
+    end: new FormControl<any>(moment().endOf('month'), [Validators.required]),
+  });
+
   constructor(
     private readonly transactionService: TransactionService,
     private readonly categoryService: CategoryService,
@@ -37,13 +55,30 @@ export class TransactionListComponent {
         this.categoryList = categoryList;
       });
 
-    this.transactionService.getAll()
-      .subscribe(transactionList => {
-        this.transactionList = transactionList;
-      });
+    this.refreshData()
   }
 
   onTransactionClick(row: Transaction) {
-    
+
+  }
+
+  onStartChange() {
+
+  }
+
+  onEndChange() {
+    if (this.range.valid) {
+      this.refreshData();
+    }
+  }
+
+  refreshData() {
+    var queryOptions = new GetAllTransactionsOptions();
+    queryOptions.orderBy = "Date"
+    queryOptions.filter = `Date ge ${this.range.get("start")?.value.format("yyyy-MM-DD")} and Date le ${this.range.get("end")?.value.format("yyyy-MM-DD")}`;
+    this.transactionService.getAll(queryOptions)
+      .subscribe(transactionList => {
+        this.transactionList = transactionList;
+      });
   }
 }
