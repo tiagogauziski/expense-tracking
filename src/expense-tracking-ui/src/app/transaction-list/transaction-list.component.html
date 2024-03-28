@@ -10,7 +10,15 @@
         <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
 </div>
+
 <div class="transaction-container">
+    <div class="category-filter-container">
+        <mat-chip-listbox multiple selectable (change)="categoryFilterChange($event)">
+            @for (category of this.categoryList; track $index) {
+            <mat-chip-option [value]="category">{{category.name}}</mat-chip-option>
+            }
+        </mat-chip-listbox>
+    </div>
     <table mat-table [dataSource]="transactionList || []" class="mat-elevation-z8">
         <!-- Name Column -->
         <ng-container matColumnDef="type">

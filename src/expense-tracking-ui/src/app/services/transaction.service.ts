@@ -6,7 +6,7 @@ import { Transaction } from '../models/transaction.model';
 
 export class GetAllTransactionsOptions {
   expand: string = "category";
-  filter?: string;
+  filter?: string[];
   orderBy?: string;
 }
 
@@ -23,7 +23,7 @@ export class TransactionService {
       options.params = options.params.append("$expand", queryOptions.expand!)
     }
     if (queryOptions.filter) {
-      options.params = options.params.append("$filter", queryOptions.filter!)
+      options.params = options.params.append("$filter", queryOptions.filter!.join(" "))
     }
     if (queryOptions.orderBy) {
       options.params = options.params.append("$orderby", queryOptions.orderBy!)

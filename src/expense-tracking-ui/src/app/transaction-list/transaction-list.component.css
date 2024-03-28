@@ -20,3 +20,7 @@ tr.transaction-row:hover {
 tr.transaction-row:active {
     background: #efefef;
 }
+
+.category-filter-container {
+    padding-bottom: 15px;
+}

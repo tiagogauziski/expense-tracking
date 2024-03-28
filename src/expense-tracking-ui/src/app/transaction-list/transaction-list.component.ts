@@ -14,6 +14,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
+import {MatChipListboxChange, MatChipsModule} from '@angular/material/chips';
 
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
@@ -24,7 +25,7 @@ const moment = _rollupMoment || _moment;
 @Component({
   selector: 'app-transaction-list',
   standalone: true,
-  imports: [MatButton, MatOption, MatTableModule, DatePipe, CurrencyPipe, MatDatepickerModule, MatFormFieldModule, FormsModule, ReactiveFormsModule],
+  imports: [MatButton, MatOption, MatTableModule, DatePipe, CurrencyPipe, MatDatepickerModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, MatChipsModule],
   templateUrl: './transaction-list.component.html',
   styleUrl: './transaction-list.component.css',
   providers: [provideMomentDateAdapter()]
@@ -35,11 +36,11 @@ export class TransactionListComponent {
   categoryList?: Category[];
 
   // filter
-  date = new Date();
   range = new FormGroup({
     start: new FormControl<any>(moment().startOf('month'), [Validators.required]),
     end: new FormControl<any>(moment().endOf('month'), [Validators.required]),
   });
+  selectedCategory: any;
 
   constructor(
     private readonly transactionService: TransactionService,
@@ -55,7 +56,7 @@ export class TransactionListComponent {
         this.categoryList = categoryList;
       });
 
-    this.refreshData()
+    this.refreshData(this.range.get("start"), this.range.get("end"))
   }
 
   onTransactionClick(row: Transaction) {
@@ -68,17 +69,29 @@ export class TransactionListComponent {
 
   onEndChange() {
     if (this.range.valid) {
-      this.refreshData();
+      this.refreshData(this.range.get("start"), this.range.get("end"));
     }
   }
 
-  refreshData() {
+  refreshData(startDate: any, endDate: any, selectedCategories?: Category[]) {
     var queryOptions = new GetAllTransactionsOptions();
     queryOptions.orderBy = "Date"
-    queryOptions.filter = `Date ge ${this.range.get("start")?.value.format("yyyy-MM-DD")} and Date le ${this.range.get("end")?.value.format("yyyy-MM-DD")}`;
+    queryOptions.filter = [
+      `Date ge ${this.range.get("start")?.value.format("yyyy-MM-DD")}`,
+      `and Date le ${this.range.get("end")?.value.format("yyyy-MM-DD")}`
+     ];
+
+    if (selectedCategories && selectedCategories.length > 0) {
+      queryOptions.filter.push(`and CategoryId in (${selectedCategories.map(c => c.id).join(", ")})`)
+    }
+
     this.transactionService.getAll(queryOptions)
       .subscribe(transactionList => {
         this.transactionList = transactionList;
       });
+  }
+
+  categoryFilterChange(changes: MatChipListboxChange) {
+    this.refreshData(this.range.get("start"), this.range.get("end"), changes.value);
   }
 }
