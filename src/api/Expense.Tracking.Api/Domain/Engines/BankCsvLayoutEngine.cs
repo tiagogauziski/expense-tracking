@@ -3,7 +3,7 @@ using System.Linq.Dynamic.Core;
 
 namespace Expense.Tracking.Api.Domain.Engines;
 
-public class BankCsvLayoutEngine
+public class BankCsvLayoutEngine : IEngine
 {
     private const int AccountTypeColumn = 0;
     private const int AccountDetailsColumn = 1;

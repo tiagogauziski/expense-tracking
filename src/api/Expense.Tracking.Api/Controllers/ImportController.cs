@@ -76,7 +76,7 @@ public class ImportController : ControllerBase
 
     [ProducesResponseType(StatusCodes.Status201Created)]
     [HttpPost]
-    public async Task<ActionResult<Import>> PostImport([FromForm] CreateImport request)
+    public async Task<ActionResult<Import>> PostImport([FromForm] CreateImport request, CancellationToken cancellationToken)
     {
         if (request.File is null)
         {
@@ -90,8 +90,20 @@ public class ImportController : ControllerBase
             CreatedAt = DateTimeOffset.UtcNow
         };
 
-        BankCsvLayoutEngine engine = new BankCsvLayoutEngine(await _context.ImportRule.ToListAsync());
-        var transactions = await engine.Execute(request.File.OpenReadStream());
+        IEngine engine;
+        switch (request.Layout)
+        {
+            case "bank-anz-checking-csv-v1":
+                engine = new BankCsvLayoutEngine(await _context.ImportRule.ToListAsync());
+                break;
+            case "bank-anz-creditcard-csv-v1":
+                engine = new CreditCardStatementLayoutEngine(await _context.ImportRule.ToListAsync());
+                break;
+            default:
+                return BadRequest("Invalid layout");
+        }
+
+        var transactions = await engine.Execute(request.File.OpenReadStream(), cancellationToken);
         import.Transactions = transactions.ToList();
 
         _context.Imports.Add(import);
