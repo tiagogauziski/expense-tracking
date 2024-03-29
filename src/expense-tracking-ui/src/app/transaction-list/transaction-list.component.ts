@@ -31,7 +31,7 @@ const moment = _rollupMoment || _moment;
   providers: [provideMomentDateAdapter()]
 })
 export class TransactionListComponent {
-  transactionColumns: string[] = ['type', 'category', 'details', 'amount', 'date'];
+  transactionColumns: string[] = ['type', 'category', 'details', 'reference', 'amount', 'date'];
   transactionList?: Transaction[];
   categoryList?: Category[];
 

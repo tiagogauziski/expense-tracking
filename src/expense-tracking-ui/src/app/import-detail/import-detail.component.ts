@@ -37,7 +37,7 @@ export class ImportDetailComponent {
     isExecuted: new FormControl({value: '', disabled: true}, []),
     executedAt: new FormControl('', []),
   });
-  transactionColumns: string[] = ['type', 'category', 'details', 'amount', 'date'];
+  transactionColumns: string[] = ['type', 'category', 'details', 'reference', 'amount', 'date'];
   categoryList?: Category[];
 
   constructor(
