@@ -5,6 +5,21 @@
     align-items: flex-start;
 }
 
+.transaction-filter-container {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .transaction-filter-button-container {
+        padding-bottom: 15px;
+
+        .filter-button + .filter-button{
+            margin-left: 8px;
+        }
+    }
+}
+
 .transaction-button-container {
     padding-left: 30px;
 }
@@ -24,3 +39,4 @@ tr.transaction-row:active {
 .category-filter-container {
     padding-bottom: 15px;
 }
+

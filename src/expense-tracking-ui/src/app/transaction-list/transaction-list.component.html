@@ -1,4 +1,8 @@
-<div class="transaction-container">
+<div class="transaction-filter-container">
+    <div class="transaction-filter-button-container">
+        <button mat-raised-button class="filter-button" (click)="previousMonthClick()">Previous Month</button>
+        <button mat-raised-button class="filter-button" (click)="nextMonthClick()">Next Month</button>
+    </div>
     <mat-form-field>
         <mat-label>Enter a date range</mat-label>
         <mat-date-range-input [formGroup]="range" [rangePicker]="picker">

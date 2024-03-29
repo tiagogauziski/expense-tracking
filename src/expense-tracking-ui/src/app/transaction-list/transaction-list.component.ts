@@ -37,10 +37,10 @@ export class TransactionListComponent {
 
   // filter
   range = new FormGroup({
-    start: new FormControl<any>(moment().startOf('month'), [Validators.required]),
-    end: new FormControl<any>(moment().endOf('month'), [Validators.required]),
+    start: new FormControl<any>(moment().add("-1", "M").startOf('month'), [Validators.required]),
+    end: new FormControl<any>(moment().add("-1", "M").endOf('month'), [Validators.required]),
   });
-  selectedCategory: any;
+  selectedCategories: Category[] = [];
 
   constructor(
     private readonly transactionService: TransactionService,
@@ -56,7 +56,7 @@ export class TransactionListComponent {
         this.categoryList = categoryList;
       });
 
-    this.refreshData(this.range.get("start"), this.range.get("end"))
+    this.refreshData(this.range.get("start"), this.range.get("end"), this.selectedCategories)
   }
 
   onTransactionClick(row: Transaction) {
@@ -69,7 +69,7 @@ export class TransactionListComponent {
 
   onEndChange() {
     if (this.range.valid) {
-      this.refreshData(this.range.get("start"), this.range.get("end"));
+      this.refreshData(this.range.get("start"), this.range.get("end"), this.selectedCategories);
     }
   }
 
@@ -92,6 +92,25 @@ export class TransactionListComponent {
   }
 
   categoryFilterChange(changes: MatChipListboxChange) {
-    this.refreshData(this.range.get("start"), this.range.get("end"), changes.value);
+    this.selectedCategories = changes.value;
+    this.refreshData(this.range.get("start"), this.range.get("end"), this.selectedCategories);
+  }
+
+  previousMonthClick() {
+    this.range.setValue({ 
+      start: this.range.get("start")?.value.add(-1, "M").startOf('month'),
+      end: this.range.get("end")?.value.add(-1, "M").endOf('month')
+    });
+
+    this.refreshData(this.range.get("start"), this.range.get("end"), this.selectedCategories);
+  }
+
+  nextMonthClick() {
+    this.range.setValue({ 
+      start: this.range.get("start")?.value.add(1, "M").startOf('month'),
+      end: this.range.get("end")?.value.add(1, "M").endOf('month')
+    });
+
+    this.refreshData(this.range.get("start"), this.range.get("end"), this.selectedCategories);
   }
 }
