@@ -87,6 +87,13 @@ public class CreditCardStatementLayoutEngine : IEngine
 
         transaction.Type = "Credit Card";
         transaction.Amount = decimal.Parse(lineSplit[CreditCardAmountColumn]);
+        // Credit card amount comes as positive values in the statement
+        // all transactions considered expenses have negative values.
+        if (transaction.Amount > 0)
+        {
+            transaction.Amount *= -1;
+        }
+
         transaction.Date = DateOnly.ParseExact(lineSplit[CreditCardTransactionDateColumn], "dd/MM/yyyy");
         transaction.Owner = lineSplit[CreditCardCardColumn];
 
