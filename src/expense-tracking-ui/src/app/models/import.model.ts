@@ -5,5 +5,6 @@ export interface Import {
     name: string;
     layout: string;
     createdAt: string;
-    transactions: Transaction[] 
+    transactions: Transaction[];
+    isExecuted: boolean;
 }

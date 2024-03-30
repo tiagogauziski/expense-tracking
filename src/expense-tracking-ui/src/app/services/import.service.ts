@@ -75,7 +75,7 @@ export class ImportService {
     return this.httpClient.put<Import>(`${this.configService.getConfig().baseUrl}/api/import/${importId}/transaction/${id}`, model);
   }
 
-  executeImport(id: string): Observable<any> {
-    return this.httpClient.patch<any>(`${this.configService.getConfig().baseUrl}/api/import/${id}/execute`, undefined);
+  executeImport(id: string, operation: string): Observable<any> {
+    return this.httpClient.patch<any>(`${this.configService.getConfig().baseUrl}/api/import/${id}/execute/${operation}`, undefined);
   }
 }

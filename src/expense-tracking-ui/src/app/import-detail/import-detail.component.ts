@@ -34,7 +34,7 @@ export class ImportDetailComponent {
     name: new FormControl('', []),
     layout: new FormControl('', []),
     createdAt: new FormControl('', []),
-    isExecuted: new FormControl({value: '', disabled: true}, []),
+    isExecuted: new FormControl({value: false, disabled: true}, []),
     executedAt: new FormControl('', []),
   });
   transactionColumns: string[] = ['type', 'category', 'details', 'reference', 'amount', 'date'];
@@ -57,15 +57,19 @@ export class ImportDetailComponent {
     this.activatedRoute.params.subscribe(params => {
       this.importId = params['id'];
 
-      if (this.importId !== undefined) {
-        this.importService
-          .getById(this.importId, { expand: "transactions($expand=category;$orderby=date)" })
-          .subscribe(model => {
-            this.importModel = model;
-            this.importForm.patchValue(this.importModel);
-          });
-      }
+      this.refreshData(this.importId);
     });
+  }
+
+  refreshData(id: string) {
+    if (this.importId !== undefined) {
+      this.importService
+        .getById(this.importId, { expand: "transactions($expand=category;$orderby=date)" })
+        .subscribe(model => {
+          this.importModel = model;
+          this.importForm.patchValue(this.importModel);
+        });
+    }
   }
 
   onTransactionClick(row: Transaction): void {
@@ -95,8 +99,8 @@ export class ImportDetailComponent {
     });
   }
 
-  onImport() {
-    this.importService.executeImport(this.importId).subscribe({
+  onExecuteImport() {
+    this.importService.executeImport(this.importId, "execute").subscribe({
       next: (result) => {
         this.snackBar.open("Import has been executed successfully.", undefined, { duration: this.MESSAGE_DURATION_SECONDS * 1000 });
         this.router.navigate(['transactions']);
@@ -104,6 +108,19 @@ export class ImportDetailComponent {
       error: (error) => {
         console.log(error);
         this.snackBar.open("Error executing the import.", undefined, { duration: this.MESSAGE_DURATION_SECONDS * 1000, panelClass: ["mat-warn"] });
+      }
+    });
+  }
+
+  onExecuteEngine() {
+    this.importService.executeImport(this.importId, "engine").subscribe({
+      next: (result) => {
+        this.snackBar.open("Import engine executed successfully.", undefined, { duration: this.MESSAGE_DURATION_SECONDS * 1000 });
+        this.refreshData(this.importId);
+      },
+      error: (error) => {
+        console.log(error);
+        this.snackBar.open("Error executing import engine.", undefined, { duration: this.MESSAGE_DURATION_SECONDS * 1000, panelClass: ["mat-warn"] });
       }
     });
   }
