@@ -59,7 +59,7 @@ export class ImportDetailComponent {
 
       if (this.importId !== undefined) {
         this.importService
-          .getImportById(this.importId)
+          .getById(this.importId, { expand: "transactions($expand=category;$orderby=date)" })
           .subscribe(model => {
             this.importModel = model;
             this.importForm.patchValue(this.importModel);
@@ -96,9 +96,15 @@ export class ImportDetailComponent {
   }
 
   onImport() {
-    this.importService.executeImport(this.importId).subscribe(result => {
-      this.snackBar.open("Import has been executed successfully.", undefined, { duration: this.MESSAGE_DURATION_SECONDS * 1000 });
-      this.router.navigate(['transactions']);
+    this.importService.executeImport(this.importId).subscribe({
+      next: (result) => {
+        this.snackBar.open("Import has been executed successfully.", undefined, { duration: this.MESSAGE_DURATION_SECONDS * 1000 });
+        this.router.navigate(['transactions']);
+      },
+      error: (error) => {
+        console.log(error);
+        this.snackBar.open("Error executing the import.", undefined, { duration: this.MESSAGE_DURATION_SECONDS * 1000, panelClass: ["mat-warn"] });
+      }
     });
   }
 }

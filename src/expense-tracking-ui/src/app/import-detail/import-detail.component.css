@@ -1,4 +1,11 @@
-.import-container {
+.import-transaction-container {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.import-detail-container {
     padding: 30px;
     display: flex;
     flex-direction: column;

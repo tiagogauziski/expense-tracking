@@ -1,10 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Import } from '../models/import.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ConfigService } from './config.service';
 import { ImportFile } from '../models/import-file.model';
 import { Transaction } from '../models/transaction.model';
+
+export class GetAllImportOptions {
+  expand?: string;
+  filter?: string[];
+  orderBy?: string;
+}
+
+export class GetImportByIdOptions {
+  expand?: string = "transactions($expand=category)";
+  filter?: string[];
+  orderBy?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +24,34 @@ import { Transaction } from '../models/transaction.model';
 export class ImportService {
   constructor(private httpClient: HttpClient, private configService: ConfigService) { }
 
-  getImports(): Observable<Import[]> {
-    return this.httpClient.get<Import[]>(`${this.configService.getConfig().baseUrl}/api/import`);
+  getAll(queryOptions: GetAllImportOptions = new GetAllImportOptions()): Observable<Import[]> {
+    const options = { params: new HttpParams() };
+    if (queryOptions.expand) {
+      options.params = options.params.append("$expand", queryOptions.expand!)
+    }
+    if (queryOptions.filter) {
+      options.params = options.params.append("$filter", queryOptions.filter!.join(" "))
+    }
+    if (queryOptions.orderBy) {
+      options.params = options.params.append("$orderby", queryOptions.orderBy!)
+    }
+
+    return this.httpClient.get<Import[]>(`${this.configService.getConfig().baseUrl}/api/import`, options);
   }
 
-  getImportById(ImportId: string): Observable<Import> {
-    return this.httpClient.get<Import>(`${this.configService.getConfig().baseUrl}/api/import/${ImportId}`);
+  getById(id: string, queryOptions: GetAllImportOptions = new GetAllImportOptions()): Observable<Import> {
+    const options = { params: new HttpParams() };
+    if (queryOptions.expand) {
+      options.params = options.params.append("$expand", queryOptions.expand!)
+    }
+    if (queryOptions.filter) {
+      options.params = options.params.append("$filter", queryOptions.filter!.join(" "))
+    }
+    if (queryOptions.orderBy) {
+      options.params = options.params.append("$orderby", queryOptions.orderBy!)
+    }
+
+    return this.httpClient.get<Import>(`${this.configService.getConfig().baseUrl}/api/import/${id}`, options);
   }
 
   postImport(model: Import, file: File): Observable<Import> {

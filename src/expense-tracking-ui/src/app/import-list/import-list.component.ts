@@ -23,7 +23,7 @@ export class ImportListComponent {
 
   ngOnInit(): void {
     this.importService
-      .getImports()
+      .getAll()
       .subscribe(imports => {
         this.imports = imports;
       })
