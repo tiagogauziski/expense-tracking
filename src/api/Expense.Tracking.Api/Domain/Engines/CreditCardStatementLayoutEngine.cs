@@ -57,10 +57,10 @@ public class CreditCardStatementLayoutEngine : IEngine
             transactionList.Add(transaction);
         }
 
-        return ExecuteImportRules(transactionList);
+        return ApplyRules(transactionList);
     }
 
-    internal IEnumerable<ImportTransaction> ExecuteImportRules(IEnumerable<ImportTransaction> importTransactions)
+    public IEnumerable<ImportTransaction> ApplyRules(IEnumerable<ImportTransaction> importTransactions)
     {
         foreach (var importRule in importRules)
         {

@@ -94,18 +94,7 @@ public class ImportController : ControllerBase
             CreatedAt = DateTimeOffset.UtcNow
         };
 
-        IEngine engine;
-        switch (request.Layout)
-        {
-            case "bank-anz-checking-csv-v1":
-                engine = new BankCsvLayoutEngine(await _context.ImportRule.ToListAsync());
-                break;
-            case "bank-anz-creditcard-csv-v1":
-                engine = new CreditCardStatementLayoutEngine(await _context.ImportRule.ToListAsync());
-                break;
-            default:
-                return BadRequest("Invalid layout");
-        }
+        IEngine engine = await GetEngineByLayout(import.Layout);
 
         var transactions = await engine.Execute(request.File.OpenReadStream(), cancellationToken);
         import.Transactions = transactions.ToList();
@@ -135,8 +124,8 @@ public class ImportController : ControllerBase
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpPatch("{id}/execute/{type?}")]
-    public async Task<IActionResult> ExecuteImport(int id, [FromRoute]string type = null)
+    [HttpPatch("{id}/execute/{operation?}")]
+    public async Task<IActionResult> ExecuteImport(int id, [FromRoute]string operation = "execute")
     {
         var import = await _context.Imports
             .Include(import => import.Transactions)
@@ -147,37 +136,93 @@ public class ImportController : ControllerBase
             return NotFound();
         }
 
-        if (import.IsExecuted)
+        switch (operation)
         {
-            return BadRequest("Import has been executed already.");
+            case "execute":
+                if (import.IsExecuted)
+                {
+                    DeleteTransactions(import);
+                }
+
+                ImportToTransactions(import);
+                break;
+            case "engine":
+                IEngine engine = await GetEngineByLayout(import.Layout);
+
+                // reset all categories
+                import.Transactions.ToList().ForEach(transaction =>
+                {
+                    transaction.CategoryId = null;
+                });
+
+                import.Transactions = engine.ApplyRules(import.Transactions).ToList();
+                break;
+            default:
+                return BadRequest($"Invalid {nameof(operation)}");
         }
 
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    private void DeleteTransactions(Import import)
+    {
+        if (!import.Transactions.Any()) 
+        {
+            return;
+        }
+
+        var startDate = import.Transactions.Min(transaction => transaction.Date);
+        var endDate = import.Transactions.Max(transaction => transaction.Date);
+        var types = import.Transactions.Select(transaction => transaction.Type).Distinct();
+
+        var transactions = _context.Transactions
+            .Where(transaction => transaction.Date >= startDate && transaction.Date <= endDate)
+            .Where(transaction => types.Contains(transaction.Type));
+
+        _context.Transactions.RemoveRange(transactions);
+    }
+
+
+    private void ImportToTransactions(Import import)
+    {
         import.IsExecuted = true;
         import.ExecutedAt = DateTimeOffset.UtcNow;
 
         // Select only import transactions that have a category.
-        var transactions = import.Transactions.Where(importTransaction => importTransaction.CategoryId is not null).Select(importTransaction =>
-        {
-            return new Transaction()
+        var transactions = import.Transactions
+            .Where(importTransaction => importTransaction.CategoryId is not null)
+            .Select(importTransaction =>
             {
-                Amount = importTransaction.Amount,
-                CategoryId = importTransaction.CategoryId,
-                CurrencyCode = importTransaction.CurrencyCode,
-                Date = importTransaction.Date,
-                Details = importTransaction.Details,
-                Owner = importTransaction.Owner,
-                Reference = importTransaction.Reference,
-                Type = importTransaction.Type
-            };
-        });
+                return new Transaction()
+                {
+                    Amount = importTransaction.Amount,
+                    CategoryId = importTransaction.CategoryId,
+                    CurrencyCode = importTransaction.CurrencyCode,
+                    Date = importTransaction.Date,
+                    Details = importTransaction.Details,
+                    Owner = importTransaction.Owner,
+                    Reference = importTransaction.Reference,
+                    Type = importTransaction.Type
+                };
+            });
 
         // Add transactions to the database.
-        await _context.Transactions.AddRangeAsync(transactions);
+        _context.Transactions.AddRange(transactions);
+    }
 
-        // Save changes.
-        await _context.SaveChangesAsync();
-
-        return NoContent();
+    private async Task<IEngine> GetEngineByLayout(string layout)
+    {
+        switch (layout)
+        {
+            case "bank-anz-checking-csv-v1":
+                return new BankCsvLayoutEngine(await _context.ImportRule.ToListAsync());
+            case "bank-anz-creditcard-csv-v1":
+                return new CreditCardStatementLayoutEngine(await _context.ImportRule.ToListAsync());
+            default:
+                throw new InvalidOperationException("Invalid layout");
+        }
     }
 
     private bool ImportExists(int id)
