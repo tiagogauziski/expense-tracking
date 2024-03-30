@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 
-namespace Expense.Tracking.Api.Controllers;
+namespace Expense.Tracking.Api.Controllers.Api;
 
 [Route("api/category")]
 [ApiController]

@@ -3,9 +3,12 @@ using Expense.Tracking.Api.Domain.Engines;
 using Expense.Tracking.Api.Domain.Models;
 using Expense.Tracking.Api.Infrastrucure.Database;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 
-namespace Expense.Tracking.Api.Controllers;
+namespace Expense.Tracking.Api.Controllers.Api;
 
 [Route("api/import")]
 [ApiController]
@@ -19,27 +22,28 @@ public class ImportController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Import>>> GetImports()
+    [EnableQuery]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public IQueryable<Import> GetImports()
     {
-        return await _context.Imports.ToListAsync();
+        return _context.Imports;
     }
 
+    [EnableQuery()]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("{id}")]
-    public async Task<ActionResult<Import>> GetImport(int id)
+    public ActionResult<Import> GetImport(int id)
     {
-        var import = await _context.Imports
-            .Include(import => import.Transactions)
-            .ThenInclude(transaction => transaction.Category)
+        var import = _context.Imports
             .Where(import => import.Id == id)
-            .FirstOrDefaultAsync();
+            .AsQueryable();
 
-        if (import == null)
+        if (!import.Any())
         {
             return NotFound();
         }
 
-        return import;
+        return Ok(SingleResult.Create(import));
     }
 
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -82,7 +86,7 @@ public class ImportController : ControllerBase
         {
             return BadRequest("File is required");
         }
-        
+
         var import = new Import
         {
             Name = request.Name,
@@ -131,8 +135,8 @@ public class ImportController : ControllerBase
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpPatch("{id}/execute")]
-    public async Task<IActionResult> ExecuteImport(int id)
+    [HttpPatch("{id}/execute/{type?}")]
+    public async Task<IActionResult> ExecuteImport(int id, [FromRoute]string type = null)
     {
         var import = await _context.Imports
             .Include(import => import.Transactions)

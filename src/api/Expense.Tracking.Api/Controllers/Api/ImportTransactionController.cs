@@ -3,7 +3,7 @@ using Expense.Tracking.Api.Infrastrucure.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Expense.Tracking.Api.Controllers;
+namespace Expense.Tracking.Api.Controllers.Api;
 
 [Route("api/import/{importId}/transaction")]
 [ApiController]
@@ -95,7 +95,7 @@ public class ImportTransactionController : ControllerBase
         _context.ImportTransactions.Add(importTransaction);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetImportTransaction", new { importId = importId, id = importTransaction.Id }, importTransaction);
+        return CreatedAtAction("GetImportTransaction", new { importId, id = importTransaction.Id }, importTransaction);
     }
 
     // DELETE: api/ImportTransactions/5

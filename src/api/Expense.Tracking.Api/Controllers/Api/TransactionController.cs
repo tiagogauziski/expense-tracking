@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 
-namespace Expense.Tracking.Api.Controllers;
+namespace Expense.Tracking.Api.Controllers.Api;
 
 [Route("api/transaction")]
 [ApiController]
@@ -19,10 +19,9 @@ public class TransactionController : ODataController
     }
 
     [HttpGet]
-    [HttpGet]
     [EnableQuery]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public IQueryable<Transaction> GetCategory()
+    public IQueryable<Transaction> GetTransactions()
     {
         return _context.Transactions;
     }
