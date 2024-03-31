@@ -14,7 +14,7 @@
     .transaction-filter-button-container {
         padding-bottom: 15px;
 
-        .filter-button + .filter-button{
+        .filter-button+.filter-button {
             margin-left: 8px;
         }
     }
@@ -40,3 +40,6 @@ tr.transaction-row:active {
     padding-bottom: 15px;
 }
 
+tr.mat-mdc-footer-row td {
+    font-weight: bold;
+}

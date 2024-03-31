@@ -113,4 +113,11 @@ export class TransactionListComponent {
 
     this.refreshData(this.range.get("start"), this.range.get("end"), this.selectedCategories);
   }
+
+  getTotalAmount(): number {
+    if (this.transactionList?.length == 0) {
+      return 0;
+    }
+    return this.transactionList?.map(transaction => transaction.amount).reduce((a, b) => a + b)!;
+  }
 }
