@@ -97,19 +97,26 @@ public class CreditCardStatementLayoutEngine : IEngine
         transaction.Date = DateOnly.ParseExact(lineSplit[CreditCardTransactionDateColumn], "dd/MM/yyyy");
         transaction.Owner = lineSplit[CreditCardCardColumn];
 
-        const int countryLength = 2;
-        const int referenceLength = 14;
-        var index = lineSplit[CreditCardDetailsColumn].Length - 1;
-        var country = lineSplit[CreditCardDetailsColumn].Substring(index - countryLength, countryLength);
-        index -= countryLength;
+        if (lineSplit[CreditCardDetailsColumn].Split(" ", StringSplitOptions.RemoveEmptyEntries).Length < 3)
+        {
+            transaction.Details = lineSplit[CreditCardDetailsColumn];
+        }
+        else
+        {
+            const int countryLength = 2;
+            const int referenceLength = 14;
+            var index = lineSplit[CreditCardDetailsColumn].Length - 1;
+            var country = lineSplit[CreditCardDetailsColumn].Substring(index - countryLength, countryLength);
+            index -= countryLength;
 
-        var reference = lineSplit[CreditCardDetailsColumn].Substring(index - referenceLength, referenceLength);
-        index -= referenceLength;
+            var reference = lineSplit[CreditCardDetailsColumn].Substring(index - referenceLength, referenceLength);
+            index -= referenceLength;
 
-        var details = lineSplit[CreditCardDetailsColumn].Substring(0, referenceLength);
+            var details = lineSplit[CreditCardDetailsColumn].Substring(0, referenceLength);
 
-        transaction.Details = details.Trim();
-        transaction.Reference = reference.Trim();
+            transaction.Details = details.Trim();
+            transaction.Reference = reference.Trim();
+        }
 
         return transaction;
     }
