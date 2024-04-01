@@ -1,4 +1,5 @@
 ﻿using Expense.Tracking.Api.Domain.Models;
+using System.Globalization;
 using System.Linq.Dynamic.Core;
 
 namespace Expense.Tracking.Api.Domain.Engines;
@@ -94,7 +95,7 @@ public class CreditCardStatementLayoutEngine : IEngine
             transaction.Amount *= -1;
         }
 
-        transaction.Date = DateOnly.ParseExact(lineSplit[CreditCardTransactionDateColumn], "dd/MM/yyyy");
+        transaction.Date = DateTime.ParseExact(lineSplit[CreditCardTransactionDateColumn], "dd/MM/yyyy", CultureInfo.InvariantCulture);
         transaction.Owner = lineSplit[CreditCardCardColumn];
 
         if (lineSplit[CreditCardDetailsColumn].Split(" ", StringSplitOptions.RemoveEmptyEntries).Length < 3)

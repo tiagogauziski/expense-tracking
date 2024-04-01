@@ -91,7 +91,7 @@ public class ImportController : ControllerBase
         {
             Name = request.Name,
             Layout = request.Layout,
-            CreatedAt = DateTimeOffset.UtcNow
+            CreatedAt = DateTime.UtcNow
         };
 
         IEngine engine = await GetEngineByLayout(import.Layout);
@@ -188,7 +188,7 @@ public class ImportController : ControllerBase
     private void ImportToTransactions(Import import)
     {
         import.IsExecuted = true;
-        import.ExecutedAt = DateTimeOffset.UtcNow;
+        import.ExecutedAt = DateTime.UtcNow;
 
         // Select only import transactions that have a category.
         var transactions = import.Transactions

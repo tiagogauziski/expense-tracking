@@ -41,7 +41,8 @@ public class Program
             var path = Environment.GetFolderPath(folder);
             var dbPath = Path.Join(path, "expenses.db");
 
-            options.UseSqlite($"Data Source={dbPath}");
+            options.UseMySQL(builder.Configuration.GetConnectionString("Expenses"));
+            //options.UseSqlite($"Data Source={dbPath}");
         });
 
         var app = builder.Build();

@@ -23,7 +23,7 @@ public record Import
     /// <summary>
     /// The date and time the import was created.
     /// </summary>
-    public DateTimeOffset CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
     /// <summary>
     /// Gets or sets the value indicating whether the import has been executed.
@@ -33,7 +33,7 @@ public record Import
     /// <summary>
     /// Gets or sets when the import was executed.
     /// </summary>
-    public DateTimeOffset ExecutedAt { get; set; }
+    public DateTime ExecutedAt { get; set; }
 
     /// <summary>
     /// The transactions that were imported.

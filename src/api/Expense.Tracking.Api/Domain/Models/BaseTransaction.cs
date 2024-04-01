@@ -32,7 +32,7 @@
         /// <summary>
         /// Gets or sets when the transaction was made.
         /// </summary>
-        public DateOnly Date { get; set; }
+        public DateTime Date { get; set; }
 
         /// <summary>
         /// Gets or sets the owner of the purchase.

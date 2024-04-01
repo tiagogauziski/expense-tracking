@@ -1,4 +1,5 @@
 ﻿using Expense.Tracking.Api.Domain.Models;
+using System.Globalization;
 using System.Linq.Dynamic.Core;
 
 namespace Expense.Tracking.Api.Domain.Engines;
@@ -81,7 +82,7 @@ public class BankCsvLayoutEngine : IEngine
         var transaction = new ImportTransaction();
         transaction.Type = lineSplit[AccountTypeColumn];
         transaction.Amount = decimal.Parse(lineSplit[AccountAmountColumn]);
-        transaction.Date = DateOnly.ParseExact(lineSplit[AccountDateColumn], "dd/MM/yyyy");
+        transaction.Date = DateTime.ParseExact(lineSplit[AccountDateColumn], "dd/MM/yyyy", CultureInfo.InvariantCulture);
         switch (transaction.Type)
         {
             case "Visa Purchase":
