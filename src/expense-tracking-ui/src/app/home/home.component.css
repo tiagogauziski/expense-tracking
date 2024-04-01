@@ -1,0 +1,11 @@
+.summary-card {
+    max-width: 100%;
+}
+
+.summary-chart {
+    width: 400px;
+}
+
+.dashboard-container {
+    padding: 30px;
+}
