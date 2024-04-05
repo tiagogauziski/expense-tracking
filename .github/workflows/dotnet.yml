@@ -13,7 +13,7 @@ env:
   REGISTRY: ghcr.io
   EXPENSE_TRACKING_API_CODE_PATH: src/api
   EXPENSE_TRACKING_API_IMAGE_NAME: ${{ github.repository_owner }}/expense-tracking-api
-  EXPENSE_TRACKING_API_DOCKERFILE_PATH: ./src/api/Dockerfile.
+  EXPENSE_TRACKING_API_DOCKERFILE_PATH: ./src/api/Dockerfile
   EXPENSE_TRACKING_UI_CODE_PATH: src/expense-tracking-ui
   EXPENSE_TRACKING_UI_IMAGE_NAME: ${{ github.repository_owner }}/expense-tracking-ui
   EXPENSE_TRACKING_UI_DOCKERFILE_PATH: ./src/expense-tracking-ui/Dockerfile
