@@ -10,14 +10,15 @@ on:
     branches: [ "master" ]
 
 env:
-  EXPENSE_TRACKING_API_CODE_PATH: src/api/Expense.Tracking.Api
+  REGISTRY: ghcr.io
+  EXPENSE_TRACKING_API_CODE_PATH: src/api
   EXPENSE_TRACKING_API_IMAGE_NAME: ${{ github.repository_owner }}/expense-tracking-api
-  EXPENSE_TRACKING_API_DOCKERFILE_PATH: ./src/api/Expense.Tracking.Api/Dockerfile
+  EXPENSE_TRACKING_API_DOCKERFILE_PATH: ./src/api/Dockerfile
   EXPENSE_TRACKING_UI_IMAGE_NAME: ${{ github.repository_owner }}/expense-tracking-ui
   EXPENSE_TRACKING_UI_MVC_DOCKERFILE_PATH: ./src/expense-tracking-ui/Dockerfile
 
 jobs:
-  build-and-test:
+  api-build-and-test:
     defaults:
       run:
         working-directory: ${{ env.EXPENSE_TRACKING_API_CODE_PATH }}
@@ -35,3 +36,31 @@ jobs:
       run: dotnet build --no-restore
 #    - name: Test
 #      run: dotnet test --no-build --verbosity normal
+  api-build-and-push-image:
+    needs: api-build-and-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.EXPENSE_TRACKING_API_IMAGE_NAME }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          file: ${{ env.EXPENSE_TRACKING_API_DOCKERFILE_PATH }}
+          context: ${{ env.EXPENSE_TRACKING_API_CODE_PATH }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
