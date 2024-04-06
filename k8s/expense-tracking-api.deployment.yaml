@@ -17,7 +17,7 @@ spec:
         image: ghcr.io/tiagogauziski/expense-tracking-api:master
         imagePullPolicy: Always
         env:
-        - name: ConnectionStrings__ExpensesDatabase
+        - name: ConnectionStrings__Expenses
           valueFrom:
             secretKeyRef:
               name: api-secrets
