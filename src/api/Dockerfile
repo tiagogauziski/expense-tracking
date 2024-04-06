@@ -19,7 +19,8 @@ RUN dotnet build "./Expense.Tracking.Api.csproj" -a $TARGETARCH -c $BUILD_CONFIG
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Expense.Tracking.Api.csproj" -a $TARGETARCH -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+ARG TARGETARCH
+RUN dotnet publish "./Expense.Tracking.Api.csproj" --no-self-contained -a $TARGETARCH -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
