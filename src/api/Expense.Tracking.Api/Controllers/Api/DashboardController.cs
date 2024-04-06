@@ -25,7 +25,7 @@ public class DashboardController : ControllerBase
             .Select(group => new DashboardChartContract
             {
                 Name = group.Key.Name,
-                Series = _context.Transactions
+                Series = group
                     .Where(transaction => transaction.Date.Year.ToString() == year && transaction.CategoryId == group.Key.Id)
                     .GroupBy(transaction => transaction.Date.Month)
                     .OrderBy(transaction => transaction.Key)
