@@ -11,6 +11,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  DOCKER_PLATFORMS: linux/amd64,linux/arm64
   EXPENSE_TRACKING_API_CODE_PATH: src/api
   EXPENSE_TRACKING_API_IMAGE_NAME: ${{ github.repository_owner }}/expense-tracking-api
   EXPENSE_TRACKING_API_DOCKERFILE_PATH: ./src/api/Dockerfile
@@ -62,6 +63,7 @@ jobs:
         with:
           file: ${{ env.EXPENSE_TRACKING_API_DOCKERFILE_PATH }}
           context: ${{ env.EXPENSE_TRACKING_API_CODE_PATH }}
+          platforms: ${{ env.DOCKER_PLATFORMS }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -89,6 +91,7 @@ jobs:
         with:
           file: ${{ env.EXPENSE_TRACKING_UI_DOCKERFILE_PATH }}
           context: ${{ env.EXPENSE_TRACKING_UI_CODE_PATH }}
+          platforms: ${{ env.DOCKER_PLATFORMS }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
