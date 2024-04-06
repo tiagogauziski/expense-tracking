@@ -1,0 +1,2 @@
+resources:
+- expense-tracking-api.deployment.yaml
