@@ -22,6 +22,8 @@ spec:
             secretKeyRef:
               name: api-secrets
               key: connectionString
+        - name: AllowedOrigins
+          value: http://raspberrypi.home:8081
         # readinessProbe:
         #   httpGet:
         #     path: /healthz/ready
