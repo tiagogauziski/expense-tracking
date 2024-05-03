@@ -30,7 +30,7 @@ namespace Expense.Tracking.Api.Controllers.Api
                 var carInsurance = new Category { Name = "Car Insurance" };
                 var internetBill = new Category { Name = "Internet Bill" };
                 var waterBill = new Category { Name = "Water Bill" };
-                var supermarketHelloFresh = new Category { Name = "Supermarket + Hellofresh" };
+                var supermarketHelloFresh = new Category { Name = "Supermarket" };
                 var subscriptions = new Category { Name = "Subscriptions" };
                 var gymMembership = new Category { Name = "Gym Membership" };
 
