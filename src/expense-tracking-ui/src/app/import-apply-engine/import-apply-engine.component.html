@@ -1,0 +1,17 @@
+<div class="import-container">
+    <button type="submit" mat-raised-button class="import-button" color="primary" (click)="applyEngine()">
+        Reapply Engine Rules
+    </button>
+</div>
+
+<div class="import-container">
+    <mat-progress-bar [color]="'primary'" [mode]="'determinate'" [value]="progress">
+    </mat-progress-bar>
+</div>
+
+<div class="import-container">
+    <mat-form-field class="import-execution-progress">
+        <mat-label>Execution progress</mat-label>
+        <textarea matInput readonly="true" [value]="executionProgressText"></textarea>
+    </mat-form-field>
+</div>

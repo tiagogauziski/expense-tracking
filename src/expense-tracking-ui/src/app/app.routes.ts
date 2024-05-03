@@ -8,6 +8,7 @@ import { ImportDetailComponent } from './import-detail/import-detail.component';
 import { ImportRuleListComponent } from './import-rule-list/import-rule-list.component';
 import { ImportRuleDetailComponent } from './import-rule-detail/import-rule-detail.component';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
+import { ImportApplyEngineComponent } from './import-apply-engine/import-apply-engine.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -19,6 +20,7 @@ export const routes: Routes = [
     { path: 'import-rules/edit/:id', component: ImportRuleDetailComponent },
     { path: 'imports', component: ImportListComponent },
     { path: 'imports/file', component: ImportFileComponent },
+    { path: 'imports/apply-engine', component: ImportApplyEngineComponent },
     { path: 'imports/detail/:id', component: ImportDetailComponent },
     { path: 'transactions', component: TransactionListComponent },
     { path: '', redirectTo: '/home', pathMatch: 'full' },

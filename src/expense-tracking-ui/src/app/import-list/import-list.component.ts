@@ -36,4 +36,8 @@ export class ImportListComponent {
   editImport(model: Import) {
     this.router.navigate(["/imports/detail", model.id]);
   }
+
+  applyEngine(): void {
+    this.router.navigate(["imports/apply-engine"])
+  }
 }
