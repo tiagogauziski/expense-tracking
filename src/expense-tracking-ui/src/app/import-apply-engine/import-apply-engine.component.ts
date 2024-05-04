@@ -44,7 +44,7 @@ export class ImportApplyEngineComponent {
       this.progress = totalImports / index;
       this.updateExecutionProgress(`Executing engine for import ${element.name}`);
 
-      var execution = await firstValueFrom(this.importService.executeImport(element.id!, "engine"));
+      var execution = await firstValueFrom(this.importService.executeImport(element.id!, "reimport"));
 
       this.updateExecutionProgress(`Executing engine for import ${element.name}...done`);
     }
