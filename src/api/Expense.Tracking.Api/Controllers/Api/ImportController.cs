@@ -139,23 +139,14 @@ public class ImportController : ControllerBase
         switch (operation)
         {
             case "execute":
-                if (import.IsExecuted)
-                {
-                    DeleteTransactions(import);
-                }
-
-                ImportToTransactions(import);
+                ExecuteImport(import);
                 break;
             case "engine":
-                IEngine engine = await GetEngineByLayout(import.Layout);
-
-                // reset all categories
-                import.Transactions.ToList().ForEach(transaction =>
-                {
-                    transaction.CategoryId = null;
-                });
-
-                import.Transactions = engine.ApplyRules(import.Transactions).ToList();
+                await ExecuteEngine(import);
+                break;
+            case "reimport":
+                await ExecuteEngine(import);
+                ExecuteImport(import);
                 break;
             default:
                 return BadRequest($"Invalid {nameof(operation)}");
@@ -164,6 +155,29 @@ public class ImportController : ControllerBase
         await _context.SaveChangesAsync();
 
         return NoContent();
+    }
+
+    private async Task ExecuteEngine(Import import)
+    {
+        IEngine engine = await GetEngineByLayout(import.Layout);
+
+        // reset all categories
+        import.Transactions.ToList().ForEach(transaction =>
+        {
+            transaction.CategoryId = null;
+        });
+
+        import.Transactions = engine.ApplyRules(import.Transactions).ToList();
+    }
+
+    private void ExecuteImport(Import import)
+    {
+        if (import.IsExecuted)
+        {
+            DeleteTransactions(import);
+        }
+
+        ImportToTransactions(import);
     }
 
     private void DeleteTransactions(Import import)
