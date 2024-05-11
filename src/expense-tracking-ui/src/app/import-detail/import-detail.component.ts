@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,12 +16,15 @@ import { ImportCategorySelectionDialogComponent, ImportCategorySelectionDialogDa
 import { Transaction } from '../models/transaction.model';
 import { Category } from '../models/category.model';
 import { CategoryService } from '../services/category.service';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-import-detail',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButton, MatSelect, MatOption, MatTableModule, DatePipe, CurrencyPipe, MatCheckboxModule],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButton, MatSelect, MatOption,
+    MatTableModule, DatePipe, CurrencyPipe, MatCheckboxModule, MatIconModule, MatMenuModule, MatButtonModule],
   templateUrl: './import-detail.component.html',
   styleUrl: './import-detail.component.css'
 })
@@ -34,11 +37,12 @@ export class ImportDetailComponent {
     name: new FormControl('', []),
     layout: new FormControl('', []),
     createdAt: new FormControl('', []),
-    isExecuted: new FormControl({value: false, disabled: true}, []),
+    isExecuted: new FormControl({ value: false, disabled: true }, []),
     executedAt: new FormControl('', []),
   });
-  transactionColumns: string[] = ['type', 'category', 'details', 'reference', 'amount', 'date'];
+  transactionColumns: string[] = ['type', 'category', 'details', 'reference', 'amount', 'date', 'options'];
   categoryList?: Category[];
+  selectedTransaction?: Transaction;
 
   constructor(
     private readonly importService: ImportService,
@@ -72,6 +76,14 @@ export class ImportDetailComponent {
     }
   }
 
+  setSelectedTransaction(row: Transaction): void {
+    this.selectedTransaction = row;
+  }
+
+  onCreateImportRule(row: Transaction): void {
+    this.router.navigate(['/import-rules/add'], { info: row })
+  }
+
   onTransactionClick(row: Transaction): void {
     const dialogRef = this.dialog.open(ImportCategorySelectionDialogComponent, {
       data: {
@@ -85,7 +97,7 @@ export class ImportDetailComponent {
       if (selectedCategory == undefined) {
         return;
       }
-      else if (selectedCategory.id == 0){
+      else if (selectedCategory.id == 0) {
         row.categoryId = undefined;
       }
       else {
@@ -95,7 +107,7 @@ export class ImportDetailComponent {
         .subscribe(result => {
           row.category = selectedCategory;
           this.snackBar.open("Transaction has been saved successfuly.", undefined, { duration: this.MESSAGE_DURATION_SECONDS * 1000 });
-      })
+        })
     });
   }
 

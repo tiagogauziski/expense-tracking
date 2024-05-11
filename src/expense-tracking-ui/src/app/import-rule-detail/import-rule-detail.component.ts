@@ -42,6 +42,10 @@ export class ImportRuleDetailComponent {
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
+
+    //const currentNav = this.router.lastSuccessfulNavigation;
+    //console.log(currentNav?.extras.info)
+
     this.categoryService
       .getCategories()
       .subscribe(categories => {
