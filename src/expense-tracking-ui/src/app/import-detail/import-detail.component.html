@@ -73,12 +73,12 @@
 </div>
 
 <mat-menu #menu="matMenu">
-    <button mat-menu-item>
+    <button mat-menu-item (click)="onCreateImportRule(selectedTransaction!)">
         <mat-icon>settings</mat-icon>
-        <span (click)="onCreateImportRule(selectedTransaction!)">Create import rule</span>
+        <span>Create import rule</span>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="onTransactionClick(selectedTransaction!)">
         <mat-icon>edit</mat-icon>
-        <span (click)="onTransactionClick(selectedTransaction!)">Assign category</span>
+        <span>Assign category</span>
     </button>
 </mat-menu>

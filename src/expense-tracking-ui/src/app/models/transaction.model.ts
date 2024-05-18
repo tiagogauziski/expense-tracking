@@ -5,4 +5,5 @@ export interface Transaction {
     categoryId?: string;
     category?: Category;
     amount: number;
+    details?: string;
 }

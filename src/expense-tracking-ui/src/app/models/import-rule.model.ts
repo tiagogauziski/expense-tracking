@@ -1,9 +1,9 @@
 import { Category } from "./category.model";
 
-export interface ImportRule {
+export class ImportRule {
     id?: string;
-    name: string;
-    condition: string;
-    categoryId: string;
+    name?: string;
+    condition?: string;
+    categoryId?: string;
     category?: Category;
 }

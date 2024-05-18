@@ -13,6 +13,7 @@ import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { CategoryService } from '../services/category.service';
 import { Category } from '../models/category.model';
+import { Transaction } from '../models/transaction.model';
 
 @Component({
   selector: 'app-import-rule-detail',
@@ -43,8 +44,25 @@ export class ImportRuleDetailComponent {
 
   ngOnInit(): void {
 
-    //const currentNav = this.router.lastSuccessfulNavigation;
-    //console.log(currentNav?.extras.info)
+    const currentNav = this.router.lastSuccessfulNavigation;
+    console.log(currentNav?.extras.info);
+    const importDetail: Transaction  = currentNav?.extras.info as Transaction;
+
+    if (importDetail != undefined && importDetail.details != undefined) {
+      var details = importDetail.details;
+
+      // Only get first 12 chars of string, to be compatible with Visa Purchase types.
+      if (details.length > 12) {
+        details = details.slice(0, 12);
+      }
+
+      this.importRuleForm.patchValue({
+        id: undefined,
+        name: undefined,
+        condition: `Details.StartsWith("${details}")`,
+        categoryId: undefined,
+      } as ImportRule)
+    }
 
     this.categoryService
       .getCategories()
