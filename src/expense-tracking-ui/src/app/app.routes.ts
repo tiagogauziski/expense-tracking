@@ -9,6 +9,7 @@ import { ImportRuleListComponent } from './import-rule-list/import-rule-list.com
 import { ImportRuleDetailComponent } from './import-rule-detail/import-rule-detail.component';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { ImportApplyEngineComponent } from './import-apply-engine/import-apply-engine.component';
+import { SettingsHomeComponent } from './settings-home/settings-home.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -23,5 +24,6 @@ export const routes: Routes = [
     { path: 'imports/apply-engine', component: ImportApplyEngineComponent },
     { path: 'imports/detail/:id', component: ImportDetailComponent },
     { path: 'transactions', component: TransactionListComponent },
+    { path: 'settings', component: SettingsHomeComponent },
     { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];

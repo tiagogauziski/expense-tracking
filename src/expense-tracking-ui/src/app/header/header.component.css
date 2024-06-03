@@ -1,3 +1,7 @@
 .navbar-button-selected {
     background: #0003;
 }
+
+.header-spacer {
+    flex: 1 1 auto;
+}
