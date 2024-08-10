@@ -1,1 +1,21 @@
-<p>settings-home works!</p>
+<mat-sidenav-container class="settings-container" autosize>
+    <mat-sidenav [opened]="true" mode="side">
+        <mat-nav-list>
+            <a mat-list-item>
+                <span class="entry">
+                  <mat-icon>download</mat-icon>
+                  <span>Export</span>
+                </span>
+            </a>
+            <a mat-list-item>
+                <span class="entry">
+                  <mat-icon>upload</mat-icon>
+                  <span>Import</span>
+                </span>
+            </a>
+          </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="settings-sidenav-content">
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
