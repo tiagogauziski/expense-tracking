@@ -10,6 +10,8 @@ import { ImportRuleDetailComponent } from './import-rule-detail/import-rule-deta
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { ImportApplyEngineComponent } from './import-apply-engine/import-apply-engine.component';
 import { SettingsHomeComponent } from './settings-home/settings-home.component';
+import { SettingsExportComponent } from './settings-export/settings-export.component';
+import { SettingsImportComponent } from './settings-import/settings-import.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -24,6 +26,13 @@ export const routes: Routes = [
     { path: 'imports/apply-engine', component: ImportApplyEngineComponent },
     { path: 'imports/detail/:id', component: ImportDetailComponent },
     { path: 'transactions', component: TransactionListComponent },
-    { path: 'settings', component: SettingsHomeComponent },
+    { 
+        path: 'settings', 
+        component: SettingsHomeComponent, 
+        children: [
+            { path: 'export', component: SettingsExportComponent },
+            { path: 'import', component: SettingsImportComponent },
+        ] 
+    },
     { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
