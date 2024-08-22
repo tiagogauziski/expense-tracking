@@ -46,15 +46,39 @@ namespace Expense.Tracking.Api.Controllers.Api
         public async Task<IActionResult> GetImportRules()
         {
             var importRules = await _context.ImportRule
-                .Select(importRule => new ImportRuleCsvcs() 
-                { 
+                .Select(importRule => new ImportRuleCsvcs()
+                {
                     Name = importRule.Name,
                     Condition = importRule.Condition,
                     Category = importRule.Category.Name
                 })
                 .ToListAsync();
 
-            return GenerateCsvFile(importRules, $"import-rule-export-{DateTime.Now:yyyyMMdd}.csv"); 
+            return GenerateCsvFile(importRules, $"import-rule-export-{DateTime.Now:yyyyMMdd}.csv");
+        }
+
+        [HttpDelete("import/delete-category")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteCategories()
+        {
+            var categories = await _context.Category.ToListAsync();
+
+            _context.RemoveRange(categories);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpDelete("import/delete-import-rules")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteImportRules()
+        {
+            var importRules = await _context.ImportRule.ToListAsync();
+
+            _context.RemoveRange(importRules);
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         private FileStreamResult GenerateCsvFile<T>(IEnumerable<T> data, string fileName)

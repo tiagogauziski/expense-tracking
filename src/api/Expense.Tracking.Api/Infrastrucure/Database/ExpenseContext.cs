@@ -7,9 +7,9 @@ public class ExpenseContext : DbContext
 {
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Import> Imports { get; set; }
+    public DbSet<ImportRule> ImportRule { get; set; }
     public DbSet<ImportTransaction> ImportTransactions { get; set; }
     public DbSet<Category> Category { get; set; }
-
 
     public string DbPath { get; }
 
@@ -96,7 +96,8 @@ public class ExpenseContext : DbContext
             .HasOne(importRule => importRule.Category)
             .WithMany()
             .HasForeignKey(importRule => importRule.CategoryId)
-            .IsRequired(true);
+            .OnDelete(DeleteBehavior.SetNull)
+            .IsRequired(false);
     }
 
     private static void ImportTransactionEntityConfiguration(ModelBuilder modelBuilder)
@@ -135,6 +136,7 @@ public class ExpenseContext : DbContext
             .HasOne(transaction => transaction.Category)
             .WithMany()
             .HasForeignKey(e => e.CategoryId)
+            .OnDelete(DeleteBehavior.SetNull)
             .IsRequired(false);
 
         modelBuilder.Entity<T>()
@@ -159,6 +161,5 @@ public class ExpenseContext : DbContext
             .IsRequired(false);
     }
 
-public DbSet<Expense.Tracking.Api.Domain.Models.ImportRule> ImportRule { get; set; } = default!;
 
 }

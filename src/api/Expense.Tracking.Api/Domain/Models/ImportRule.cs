@@ -20,7 +20,7 @@ public record ImportRule
     /// <summary>
     /// Gets or sets the category id that will be assigned to the transaction.
     /// </summary>
-    public int CategoryId { get; set; }
+    public int? CategoryId { get; set; }
 
     /// <summary>
     /// Gets or sets the category.
