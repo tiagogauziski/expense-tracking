@@ -1,0 +1,16 @@
+.import-button-container {
+    padding-top: 30px;
+    padding-left: 30px;
+}
+
+.import-button+.import-button {
+    margin-left: 8px;
+}
+
+.import-container {
+    padding: 30px;
+}
+
+.file-input {
+    display: none;
+}
