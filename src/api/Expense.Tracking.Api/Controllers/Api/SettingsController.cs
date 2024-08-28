@@ -1,9 +1,11 @@
 ﻿using CsvHelper;
 using Expense.Tracking.Api.Contracts;
+using Expense.Tracking.Api.Domain.Models;
 using Expense.Tracking.Api.Infrastrucure.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using static Org.BouncyCastle.Bcpg.Attr.ImageAttrib;
 
 namespace Expense.Tracking.Api.Controllers.Api
 {
@@ -46,7 +48,7 @@ namespace Expense.Tracking.Api.Controllers.Api
         public async Task<IActionResult> GetImportRules()
         {
             var importRules = await _context.ImportRule
-                .Select(importRule => new ImportRuleCsvcs()
+                .Select(importRule => new ImportRuleCsv()
                 {
                     Name = importRule.Name,
                     Condition = importRule.Condition,
@@ -79,6 +81,40 @@ namespace Expense.Tracking.Api.Controllers.Api
             await _context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpPost("import")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> ImportFiles([FromForm] SettingsImport import)
+        {
+            using StreamReader categoryStream = new StreamReader(import.Categories.OpenReadStream());
+            using CsvReader categoryCsv = new CsvReader(categoryStream, CultureInfo.InvariantCulture);
+            var categories = categoryCsv
+                .GetRecords<CategoryCsv>()
+                .Select(category => new Category()
+                {
+                    Name = category.Name
+                })
+                .ToList();
+
+            using StreamReader importRuleStream = new StreamReader(import.ImportRules.OpenReadStream());
+            using CsvReader importRuleCsv = new CsvReader(importRuleStream, CultureInfo.InvariantCulture);
+            var importRules = importRuleCsv
+                .GetRecords<ImportRuleCsv>()
+                .Select(importRule => new ImportRule()
+                {
+                    Name = importRule.Name,
+                    Condition = importRule.Condition,
+                    Category = categories.FirstOrDefault(category => category.Name == importRule.Category)
+                })
+                .ToList();
+
+            _context.Category.AddRange(categories);
+            _context.ImportRule.AddRange(importRules);
+
+            await _context.SaveChangesAsync();
+
+            return Created();
         }
 
         private FileStreamResult GenerateCsvFile<T>(IEnumerable<T> data, string fileName)

@@ -2,7 +2,7 @@
 
 namespace Expense.Tracking.Api.Contracts
 {
-    public record ImportRuleCsvcs
+    public record ImportRuleCsv
     {
         [Name("name")]
         public required string Name { get; set; }
