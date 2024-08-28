@@ -84,7 +84,7 @@ namespace Expense.Tracking.Api.Controllers.Api
         }
 
         [HttpPost("import")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> ImportFiles([FromForm] SettingsImport import)
         {
             using StreamReader categoryStream = new StreamReader(import.Categories.OpenReadStream());
@@ -114,7 +114,7 @@ namespace Expense.Tracking.Api.Controllers.Api
 
             await _context.SaveChangesAsync();
 
-            return Created();
+            return NoContent();
         }
 
         private FileStreamResult GenerateCsvFile<T>(IEnumerable<T> data, string fileName)
