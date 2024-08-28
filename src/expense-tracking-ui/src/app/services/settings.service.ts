@@ -25,5 +25,13 @@ export class SettingsService {
   deleteImportRules(): Observable<any> {
     return this.httpClient.delete<any>(`${this.configService.getConfig().baseUrl}/api/settings/import/delete-import-rules`);
   }
+
+  import(categories: File, importRules: File) : Observable<any> {
+    const formData = new FormData();
+    formData.append("categories", categories);
+    formData.append("importRules", importRules);
+
+    return this.httpClient.post<any>(`${this.configService.getConfig().baseUrl}/api/settings/import`, formData);
+  }
 }
   

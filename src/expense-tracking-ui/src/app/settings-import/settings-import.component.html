@@ -11,7 +11,7 @@
     <div class="file">
         <input type="file" class="file-input" (change)="onCategoryFileSelected($event)" #categoryFileUpload>
         <div class="file-upload">
-            {{categoryFileName || "Select category export file."}}
+            {{categoryFile?.name || "Select category export file."}}
             <button mat-mini-fab color="primary" class="upload-btn" (click)="categoryFileUpload.click()">
                 <mat-icon>attach_file</mat-icon>
             </button>
@@ -20,13 +20,13 @@
     <div class="file">
         <input type="file" class="file-input" (change)="onImportRuleFileSelected($event)" #importRuleFileUpload>
         <div class="file-upload">
-            {{importRuleFileName || "Select import rule export file."}}
+            {{importRuleFile?.name || "Select import rule export file."}}
             <button mat-mini-fab color="primary" class="upload-btn" (click)="importRuleFileUpload.click()">
                 <mat-icon>attach_file</mat-icon>
             </button>
         </div>
     </div>
-    <button mat-raised-button class="import-button" color="primary">
+    <button mat-raised-button class="import-button" color="primary" (click)="uploadFiles()">
         Import
     </button>
 </div>

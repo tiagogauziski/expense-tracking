@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { SettingsService } from '../services/settings.service';
 import { MatIcon } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-settings-import',
@@ -12,10 +13,13 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class SettingsImportComponent {
 
-  categoryFileName = '';
-  importRuleFileName = '';
+  categoryFile?: File;
+  importRuleFile?: File;
 
-  constructor(private settingsService: SettingsService) {  }
+  constructor(
+    private settingsService: SettingsService,
+    private snackBar: MatSnackBar
+  ) {  }
 
   public deleteAllCategories() {
     this.settingsService.deleteCategories().subscribe();
@@ -29,22 +33,25 @@ export class SettingsImportComponent {
   onCategoryFileSelected(event: any) {
     const file:File = event.target.files[0];
     if (file) {
-        this.categoryFileName = file.name;
-        const formData = new FormData();
-        formData.append("thumbnail", file);
-        // const upload$ = this.http.post("/api/thumbnail-upload", formData);
-        // upload$.subscribe();
+        this.categoryFile = file;
     }
   }
 
   onImportRuleFileSelected(event: any) {
     const file:File = event.target.files[0];
     if (file) {
-        this.importRuleFileName = file.name;
-        const formData = new FormData();
-        formData.append("thumbnail", file);
-        // const upload$ = this.http.post("/api/thumbnail-upload", formData);
-        // upload$.subscribe();
+        this.importRuleFile = file;
+    }
+  }
+
+  uploadFiles() {
+    if (this.categoryFile && this.importRuleFile) {
+      this.settingsService.import(this.categoryFile, this.importRuleFile).subscribe(() => {
+        this.snackBar.open("Category and import rules imported successfully.", undefined, { duration: 5000 });
+      })
+    }
+    else {
+      this.snackBar.open("Select category and import rule files before importing.", undefined, { duration: 5000 });
     }
   }
 }
