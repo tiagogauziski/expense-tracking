@@ -22,7 +22,7 @@ metadata:
 data:
   config.json: |
     {
-      "baseUrl": "http://raspberrypi.home:8080"
+      "baseUrl": "http://rasp4.home:8080"
     }
 EOF
 ```
