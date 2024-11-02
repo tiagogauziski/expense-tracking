@@ -1,0 +1,41 @@
+services:
+  api:
+    build: ./src/api/
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__Expenses: 'Server=database; User ID=expense-user; Password=Network1; Database=expenses'
+      AllowedOrigins: 'http://localhost:8081'
+  ui:
+    build: ./src/expense-tracking-ui/
+    ports:
+    - "8081:80"
+    depends_on:
+    - api
+    configs:
+    - source: ui_config
+      target: /usr/share/nginx/html/assets/config.json
+  database:
+    image: "mysql:8.0"
+    environment:
+      MYSQL_DATABASE: 'expenses'
+      MYSQL_USER: 'expense-user'
+      MYSQL_PASSWORD: 'Network1'
+      MYSQL_ROOT_PASSWORD: 'Network123'
+    healthcheck:
+      test: ["CMD", "mysql", "--user=expense-user", "--password=Network1", "--execute", "SELECT 1;"]
+      # test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+      interval: 2s
+      start_period: 5s
+
+configs:
+  ui_config:
+    content: |
+      {
+        "baseUrl": "http://localhost:8081"
+      }

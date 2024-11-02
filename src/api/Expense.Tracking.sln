@@ -9,7 +9,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Expense.Tracking.Api.Tests"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF5E98D2-C7A8-4FCB-97B7-FF5492AA7FC9}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\docker-compose.yaml = ..\..\docker-compose.yaml
 		Dockerfile = Dockerfile
+		..\..\README.md = ..\..\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{2D86E595-0F7F-4CDA-A5E6-FDF670CF3B28}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\k8s\expense-tracking-api.deployment.yaml = ..\..\k8s\expense-tracking-api.deployment.yaml
+		..\..\k8s\expense-tracking-ui.deployment.yaml = ..\..\k8s\expense-tracking-ui.deployment.yaml
+		..\..\k8s\kustomization.yaml = ..\..\k8s\kustomization.yaml
+		..\..\k8s\README.md = ..\..\k8s\README.md
 	EndProjectSection
 EndProject
 Global
