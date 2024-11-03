@@ -1,12 +1,14 @@
 ﻿using Expense.Tracking.Api.Domain.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace Expense.Tracking.Api.IntegrationTests.Controllers.Api
 {
+    [TestClass]
     public class CategoryControllerTests
     {
-        [Fact]
+        [TestMethod]
         public async Task GetCategoryTest()
         {
             // Arrange
@@ -20,7 +22,7 @@ namespace Expense.Tracking.Api.IntegrationTests.Controllers.Api
             response.EnsureSuccessStatusCode();
         }
 
-        [Fact]
+        [TestMethod]
         public async Task PostCategoryTest()
         {
             // Arrange
@@ -39,10 +41,10 @@ namespace Expense.Tracking.Api.IntegrationTests.Controllers.Api
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
             var createdCategory = JsonConvert.DeserializeObject<Category>(responseString);
-            Assert.Equal(newCategory.Name, createdCategory.Name);
+            Assert.AreEqual(newCategory.Name, createdCategory.Name);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task PostAndGetCategoryTest()
         {
             // Arrange
@@ -65,10 +67,10 @@ namespace Expense.Tracking.Api.IntegrationTests.Controllers.Api
             var categoryResponse = JsonConvert.DeserializeObject<Category>(responseString);
 
             // Assert
-            Assert.Equal(newCategory.Name, categoryResponse.Name);
+            Assert.AreEqual(newCategory.Name, categoryResponse.Name);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task PostDuplicateCategoryTest()
         {
             // Arrange
@@ -87,11 +89,11 @@ namespace Expense.Tracking.Api.IntegrationTests.Controllers.Api
             var secondResponse = await client.PostAsync("/api/category", content);
 
             // Assert
-            Assert.False(secondResponse.IsSuccessStatusCode);
-            Assert.Equal(System.Net.HttpStatusCode.Conflict, secondResponse.StatusCode);
+            Assert.IsFalse(secondResponse.IsSuccessStatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.Conflict, secondResponse.StatusCode);
         }
 
-        [Fact]
+        [TestMethod]
         public async Task UpdateCategoryTest()
         {
             // Arrange
@@ -122,7 +124,7 @@ namespace Expense.Tracking.Api.IntegrationTests.Controllers.Api
             var responseString = await getResponse.Content.ReadAsStringAsync();
             var updatedCategory = JsonConvert.DeserializeObject<Category>(responseString);
 
-            Assert.Equal("Updated Category", updatedCategory.Name);
+            Assert.AreEqual("Updated Category", updatedCategory.Name);
         }
 
 
