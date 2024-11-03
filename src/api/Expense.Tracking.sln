@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{2D86E595-0F7
 		..\..\k8s\README.md = ..\..\k8s\README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Expense.Tracking.Api.IntegrationTests", "Expense.Tracking.Api.IntegrationTests\Expense.Tracking.Api.IntegrationTests.csproj", "{32CCA217-9F75-4D7E-BFA5-8AB891993506}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 		{0893B988-8280-46E0-A663-AD5E77985611}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0893B988-8280-46E0-A663-AD5E77985611}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0893B988-8280-46E0-A663-AD5E77985611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32CCA217-9F75-4D7E-BFA5-8AB891993506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32CCA217-9F75-4D7E-BFA5-8AB891993506}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32CCA217-9F75-4D7E-BFA5-8AB891993506}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32CCA217-9F75-4D7E-BFA5-8AB891993506}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
