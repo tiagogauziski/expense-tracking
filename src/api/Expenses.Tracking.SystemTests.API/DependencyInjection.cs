@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Playwright;
-using Reqnroll.Infrastructure;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 
-namespace Expenses.Tracking.SystemTests
+namespace Expenses.Tracking.SystemTests.API
 {
     internal static class DependencyInjection
     {
@@ -13,14 +11,8 @@ namespace Expenses.Tracking.SystemTests
             var services = new ServiceCollection();
 
             // TODO: add your test dependencies here
-            services.RegisterPlaywright();
 
             return services;
-        }
-
-        private static void RegisterPlaywright(this IServiceCollection builder)
-        {
-
         }
     }
 }

@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
-    <IsPackable>false</IsPackable>
-    <IsTestProject>true</IsTestProject>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ReqnrollObsoleteCodeBehindFiles Remove="Features\Category.feature.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.2">
@@ -15,7 +16,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-    <PackageReference Include="Microsoft.Playwright.MSTest" Version="1.48.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="3.6.2" />
     <PackageReference Include="MSTest.TestFramework" Version="3.6.2" />
     <PackageReference Include="Reqnroll.Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\API\" />
-    <Folder Include="Features\UI\" />
+    <Folder Include="Drivers\" />
+    <Folder Include="Support\" />
   </ItemGroup>
 
 </Project>
