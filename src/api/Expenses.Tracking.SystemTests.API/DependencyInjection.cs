@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Expense.Tracking.Api.Client;
+using Microsoft.Extensions.DependencyInjection;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 
 namespace Expenses.Tracking.SystemTests.API
@@ -9,6 +10,11 @@ namespace Expenses.Tracking.SystemTests.API
         public static IServiceCollection CreateServices()
         {
             var services = new ServiceCollection();
+
+            services.AddHttpClient<ExpenseTrackingApiClient>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:8080/");
+            });
 
             // TODO: add your test dependencies here
 
