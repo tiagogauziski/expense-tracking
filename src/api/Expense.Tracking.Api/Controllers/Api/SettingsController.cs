@@ -5,7 +5,6 @@ using Expense.Tracking.Api.Infrastrucure.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using static Org.BouncyCastle.Bcpg.Attr.ImageAttrib;
 
 namespace Expense.Tracking.Api.Controllers.Api
 {

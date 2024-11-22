@@ -7,10 +7,11 @@ namespace Expenses.Tracking.SystemTests.API.StepDefinitions;
 public class CategorySteps(ExpenseTrackingApiClient apiClient)
 {
     private HttpResponseMessage response;
-    [When("I send a POST request to \\/api\\/category with the following data")]
+
+    [When("I send a POST request to category endpoint with the following data")]
     public async Task WhenISendAPOSTRequestToApiCategoryWithTheFollowingData(DataTable dataTable)
     {
-        response = await apiClient.CreateCategoryAsync(new Category()
+        response = await apiClient.Category.CreateAsync(new Category()
         {
             Name = dataTable.Rows[0]["Name"]
         });
