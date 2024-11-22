@@ -8,6 +8,9 @@ cd C:\Git\expense-tracking
 
 # Start containers
 docker-compose -f docker-compose.yaml up
+
+# Access the URL via browser
+curl http://localhost:8081/
 ```
 
 ## API
