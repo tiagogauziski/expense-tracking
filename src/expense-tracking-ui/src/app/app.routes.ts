@@ -12,9 +12,10 @@ import { ImportApplyEngineComponent } from './import-apply-engine/import-apply-e
 import { SettingsHomeComponent } from './settings-home/settings-home.component';
 import { SettingsExportComponent } from './settings-export/settings-export.component';
 import { SettingsImportComponent } from './settings-import/settings-import.component';
+import { DashboardHomeComponent } from './dashboard-home/dashboard-home.component';
 
 export const routes: Routes = [
-    { path: 'home', component: HomeComponent },
+    { path: 'home', component: DashboardHomeComponent },
     { path: 'categories', component: CategoryListComponent },
     { path: 'categories/add', component: CategoryDetailComponent },
     { path: 'categories/edit/:id', component: CategoryDetailComponent },

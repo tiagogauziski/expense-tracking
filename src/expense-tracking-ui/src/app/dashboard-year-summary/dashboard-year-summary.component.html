@@ -1,0 +1,26 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Summary</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-form-field>
+            <mat-label>Year</mat-label>
+            <mat-select [(value)]="selectedYear" (selectionChange)="selectYear()">
+                @for (option of yearList; track option) {
+                <mat-option [value]="option.value">{{ option.value }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <div class="category-filter-container">
+            <mat-chip-listbox multiple selectable (change)="categoryFilterChange($event)">
+                @for (category of this.categoryList; track $index) {
+                <mat-chip-option [value]="category.name">{{category.name}}</mat-chip-option>
+                }
+            </mat-chip-listbox>
+        </div>
+        <div>
+            <ngx-charts-bar-vertical-2d [results]="summaryDataSource" [xAxis]="true"
+                [yAxis]="true"></ngx-charts-bar-vertical-2d>
+        </div>
+    </mat-card-content>
+</mat-card>
