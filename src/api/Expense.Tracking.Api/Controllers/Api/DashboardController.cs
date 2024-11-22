@@ -1,4 +1,5 @@
-﻿using Expense.Tracking.Api.Infrastrucure.Database;
+﻿using Expense.Tracking.Api.Domain.Models;
+using Expense.Tracking.Api.Infrastrucure.Database;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Expense.Tracking.Api.Controllers.Api;
@@ -16,10 +17,12 @@ public class DashboardController : ControllerBase
 
     [HttpGet("summary-year/{year}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public IEnumerable<DashboardChartContract> GetTransactionsSummary([FromRoute] string year)
+    public IEnumerable<DashboardChartContract> GetTransactionsSummary([FromRoute] string year, [FromQuery]string[]? categories)
     {
+        categories ??= [];
+
         var query = _context.Transactions
-            .Where(transaction => transaction.Date.Year.ToString() == year)
+            .Where(transaction => transaction.Date.Year.ToString() == year && (!categories.Any() || categories.Contains(transaction.Category.Name)))
             .GroupBy(transaction => transaction.Category)
             .ToList()
             .Select(group => new DashboardChartContract
@@ -37,24 +40,6 @@ public class DashboardController : ControllerBase
             });
 
 
-
-        return query;
-    }
-
-    [HttpGet("summary-year/{year}/{category}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public IEnumerable<DashboardChartSeriesContract> GetTransactionsGroupByCategory([FromRoute] string year, [FromRoute] string category)
-    {
-        var query = _context.Transactions
-            .Where(transaction => transaction.Date.Year.ToString() == year && transaction.Category.Name == category)
-            .GroupBy(transaction => transaction.Date.Month)
-            .OrderBy(transaction => transaction.Key)
-            .Select(monthGroup => new DashboardChartSeriesContract
-            {
-                Name = monthGroup.Key.ToString(),
-                Value = monthGroup.Sum(transaction => transaction.Amount)
-            })
-            .ToList();
 
         return query;
     }
