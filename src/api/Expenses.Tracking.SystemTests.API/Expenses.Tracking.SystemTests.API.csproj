@@ -17,8 +17,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.6.3" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.6.3" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.6.4" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.6.4" />
     <PackageReference Include="Reqnroll.Microsoft.Extensions.DependencyInjection" Version="2.2.1" />
     <PackageReference Include="Reqnroll.MsTest" Version="2.2.1" />
   </ItemGroup>
