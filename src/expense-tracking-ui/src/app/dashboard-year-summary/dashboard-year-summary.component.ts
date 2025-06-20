@@ -25,7 +25,7 @@ export class DashboardYearSummaryComponent {
     {value: '2024'},
     {value: '2025'},
   ];
-  selectedYear = this.yearList[1].value;
+  selectedYear = this.yearList[2].value;
   selectedCategories: string[] = [];
 
   constructor(
