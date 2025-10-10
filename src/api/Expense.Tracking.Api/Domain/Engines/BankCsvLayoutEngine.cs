@@ -103,6 +103,10 @@ public class BankCsvLayoutEngine : IEngine
             case "Automatic Payment":
                 transaction.Details = lineSplit[AccountDetailsColumn];
                 break;
+            case "Loan Payment":
+                transaction.Details = lineSplit[AccountDetailsColumn];
+                transaction.Reference = lineSplit[AccountReferenceColumn];
+                break;
             default:
                 return null;
         }
