@@ -1,6 +1,5 @@
 ﻿using Expenses.Tracking.SystemTests.UI.Pages;
 using Expenses.Tracking.SystemTests.UI.Support;
-using FluentAssertions.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Playwright;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
