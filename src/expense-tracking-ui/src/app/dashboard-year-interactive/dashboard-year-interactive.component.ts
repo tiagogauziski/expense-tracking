@@ -9,12 +9,12 @@ import { Category } from '../models/category.model';
 import { CategoryService } from '../services/category.service';
 
 @Component({
-    selector: 'app-dashboard-year-summary',
+    selector: 'app-dashboard-year-interactive',
     imports: [MatCardModule, MatButtonModule, NgxChartsModule, MatSelect, MatFormField, MatLabel, MatOption, MatChipsModule],
-    templateUrl: './dashboard-year-summary.component.html',
-    styleUrl: './dashboard-year-summary.component.css'
+    templateUrl: './dashboard-year-interactive.component.html',
+    styleUrl: './dashboard-year-interactive.component.css'
 })
-export class DashboardYearSummaryComponent {
+export class DashboardYearInteractiveComponent {
   summaryChatView: any = [500, 500];
   summaryDataSource: any = [];
   categoryList?: Category[];
@@ -23,6 +23,7 @@ export class DashboardYearSummaryComponent {
     {value: '2023'},
     {value: '2024'},
     {value: '2025'},
+    {value: '2026'},
   ];
   selectedYear = this.yearList[2].value;
   selectedCategories: string[] = [];
