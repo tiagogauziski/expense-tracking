@@ -43,7 +43,7 @@ export class ImportRuleDetailComponent {
 
   ngOnInit(): void {
 
-    const currentNav = this.router.lastSuccessfulNavigation;
+    const currentNav = this.router.lastSuccessfulNavigation();
     console.log(currentNav?.extras.info);
     const importDetail: Transaction  = currentNav?.extras.info as Transaction;
 
