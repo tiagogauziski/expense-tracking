@@ -9,11 +9,10 @@ import { Category } from '../models/category.model';
 import { CategoryService } from '../services/category.service';
 
 @Component({
-  selector: 'app-dashboard-year-summary',
-  standalone: true,
-  imports: [MatCardModule, MatButtonModule, NgxChartsModule, MatSelect, MatFormField, MatLabel, MatOption, MatChipsModule],
-  templateUrl: './dashboard-year-summary.component.html',
-  styleUrl: './dashboard-year-summary.component.css'
+    selector: 'app-dashboard-year-summary',
+    imports: [MatCardModule, MatButtonModule, NgxChartsModule, MatSelect, MatFormField, MatLabel, MatOption, MatChipsModule],
+    templateUrl: './dashboard-year-summary.component.html',
+    styleUrl: './dashboard-year-summary.component.css'
 })
 export class DashboardYearSummaryComponent {
   summaryChatView: any = [500, 500];

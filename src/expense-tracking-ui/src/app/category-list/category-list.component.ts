@@ -7,11 +7,10 @@ import { Router } from '@angular/router';
 import { MatSort, MatSortable, MatSortModule } from '@angular/material/sort';
 
 @Component({
-  selector: 'app-category-list',
-  standalone: true,
-  imports: [MatTableModule, MatButton, MatSortModule ],
-  templateUrl: './category-list.component.html',
-  styleUrl: './category-list.component.css'
+    selector: 'app-category-list',
+    imports: [MatTableModule, MatButton, MatSortModule],
+    templateUrl: './category-list.component.html',
+    styleUrl: './category-list.component.css'
 })
 export class CategoryListComponent {
   displayedColumns: string[] = ['name'];

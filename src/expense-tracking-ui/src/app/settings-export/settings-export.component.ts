@@ -4,11 +4,10 @@ import { SettingsService } from '../services/settings.service';
 import { saveAs } from 'file-saver';
 
 @Component({
-  selector: 'app-settings-export',
-  standalone: true,
-  imports: [MatButton],
-  templateUrl: './settings-export.component.html',
-  styleUrl: './settings-export.component.css'
+    selector: 'app-settings-export',
+    imports: [MatButton],
+    templateUrl: './settings-export.component.html',
+    styleUrl: './settings-export.component.css'
 })
 export class SettingsExportComponent {
   constructor(private settingsService: SettingsService) {

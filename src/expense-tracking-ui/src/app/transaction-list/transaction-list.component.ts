@@ -23,12 +23,11 @@ import { default as _rollupMoment } from 'moment';
 const moment = _rollupMoment || _moment;
 
 @Component({
-  selector: 'app-transaction-list',
-  standalone: true,
-  imports: [MatButton, MatOption, MatTableModule, DatePipe, CurrencyPipe, MatDatepickerModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, MatChipsModule],
-  templateUrl: './transaction-list.component.html',
-  styleUrl: './transaction-list.component.css',
-  providers: [provideMomentDateAdapter()]
+    selector: 'app-transaction-list',
+    imports: [MatButton, MatOption, MatTableModule, DatePipe, CurrencyPipe, MatDatepickerModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, MatChipsModule],
+    templateUrl: './transaction-list.component.html',
+    styleUrl: './transaction-list.component.css',
+    providers: [provideMomentDateAdapter()]
 })
 export class TransactionListComponent {
   transactionColumns: string[] = ['type', 'category', 'details', 'reference', 'amount', 'date'];

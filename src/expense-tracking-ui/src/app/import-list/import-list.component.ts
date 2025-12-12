@@ -7,11 +7,10 @@ import { Import } from '../models/import.model';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-import-list',
-  standalone: true,
-  imports: [MatTableModule, MatButton, DatePipe],
-  templateUrl: './import-list.component.html',
-  styleUrl: './import-list.component.css'
+    selector: 'app-import-list',
+    imports: [MatTableModule, MatButton, DatePipe],
+    templateUrl: './import-list.component.html',
+    styleUrl: './import-list.component.css'
 })
 export class ImportListComponent {
   displayedColumns: string[] = ['name', 'layout', 'createdAt'];

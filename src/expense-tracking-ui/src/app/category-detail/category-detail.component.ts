@@ -11,11 +11,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { CategoryDeleteDialogComponent } from '../category-delete-dialog/category-delete-dialog.component';
 
 @Component({
-  selector: 'app-category-detail',
-  standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButton],
-  templateUrl: './category-detail.component.html',
-  styleUrl: './category-detail.component.css'
+    selector: 'app-category-detail',
+    imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButton],
+    templateUrl: './category-detail.component.html',
+    styleUrl: './category-detail.component.css'
 })
 export class CategoryDetailComponent implements OnInit {
   categoryId: string = "";

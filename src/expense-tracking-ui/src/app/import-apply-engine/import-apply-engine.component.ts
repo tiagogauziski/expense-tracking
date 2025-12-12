@@ -8,11 +8,10 @@ import { ImportService } from '../services/import.service';
 import { firstValueFrom, from, map, switchMap, tap } from 'rxjs';
 
 @Component({
-  selector: 'app-import-apply-engine',
-  standalone: true,
-  imports: [MatButton, MatProgressBarModule, FormsModule, MatFormFieldModule, MatInputModule],
-  templateUrl: './import-apply-engine.component.html',
-  styleUrl: './import-apply-engine.component.css'
+    selector: 'app-import-apply-engine',
+    imports: [MatButton, MatProgressBarModule, FormsModule, MatFormFieldModule, MatInputModule],
+    templateUrl: './import-apply-engine.component.html',
+    styleUrl: './import-apply-engine.component.css'
 })
 export class ImportApplyEngineComponent {
   progress: number = 0;
