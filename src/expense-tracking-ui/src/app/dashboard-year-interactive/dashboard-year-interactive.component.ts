@@ -43,7 +43,7 @@ export class DashboardYearInteractiveComponent {
 
   refreshData(year: string, categories?: string[]): void {
     this.dashboardService
-      .getSummaryPerYear(year, categories)
+      .getSummaryPerYearMonth(year, categories)
       .subscribe(summaryData => {
         this.summaryDataSource = summaryData;
       });

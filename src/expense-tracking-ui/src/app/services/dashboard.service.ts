@@ -10,14 +10,20 @@ import { ConfigService } from './config.service';
 export class DashboardService {
   constructor(private httpClient: HttpClient, private configService: ConfigService) { }
 
-  getSummaryPerYear(year: string, categories?: string[]): Observable<any[]> {
-    var uri: string = `${this.configService.getConfig().baseUrl}/api/dashboard/summary-year/${year}`
+  getSummaryPerYearMonth(year: string, categories?: string[]): Observable<any[]> {
+    var uri: string = `${this.configService.getConfig().baseUrl}/api/dashboard/summary-year-month/${year}`
     const options = { params: new HttpParams() };
     if (categories) {
       categories.forEach(category => {
         options.params = options.params.append("categories", category);
       });
     }
+    return this.httpClient.get<any[]>(uri, options);
+  }
+
+  getSummaryPerYear(year: string): Observable<any[]> {
+    var uri: string = `${this.configService.getConfig().baseUrl}/api/dashboard/summary-year/${year}`
+    const options = { params: new HttpParams() };
     return this.httpClient.get<any[]>(uri, options);
   }
 

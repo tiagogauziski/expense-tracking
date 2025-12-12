@@ -15,7 +15,7 @@ public class DashboardController : ControllerBase
         _context = context;
     }
 
-    [HttpGet("summary-year/{year}")]
+    [HttpGet("summary-year-month/{year}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IEnumerable<DashboardChartContract> GetTransactionsSummary([FromRoute] string year, [FromQuery]string[]? categories)
     {
@@ -35,10 +35,31 @@ public class DashboardController : ControllerBase
                     .Select(monthGroup => new DashboardChartSeriesContract
                     {
                         Name = monthGroup.Key.ToString(),
-                        Value = monthGroup.Sum(transaction => transaction.Amount)
+                        Value = monthGroup.Sum(transaction => Math.Abs(transaction.Amount))
                     })
             });
 
+
+
+        return query;
+    }
+
+    [HttpGet("summary-year/{year}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public IEnumerable<DashboardChartSeriesContract> GetTransactionsSummary([FromRoute] string year)
+    {
+        var query = _context.Transactions
+            .Where(transaction => transaction.Date.Year.ToString() == year)
+            .GroupBy(transaction => transaction.Category)
+            .Select(group => new DashboardChartSeriesContract
+            {
+                Name = group.Key.Name,
+                Value = group
+                    .Where(transaction => transaction.Date.Year.ToString() == year && transaction.CategoryId == group.Key.Id)
+                    .Sum(transaction => Math.Abs(transaction.Amount))
+            })
+            .OrderBy(item => item.Value)
+            .ToList();
 
 
         return query;

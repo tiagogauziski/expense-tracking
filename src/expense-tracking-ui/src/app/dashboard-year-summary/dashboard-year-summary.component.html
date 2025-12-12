@@ -1,0 +1,18 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Sum group by category</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-form-field>
+            <mat-label>Year</mat-label>
+            <mat-select [(value)]="selectedYear" (selectionChange)="selectYear()">
+                @for (option of yearList; track option) {
+                <mat-option [value]="option.value">{{ option.value }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <div>
+            <ngx-charts-pie-grid [results]="summaryDataSource"></ngx-charts-pie-grid>
+        </div>
+    </mat-card-content>
+</mat-card>
