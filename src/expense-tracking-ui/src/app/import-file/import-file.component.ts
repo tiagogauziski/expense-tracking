@@ -10,11 +10,10 @@ import { Import } from '../models/import.model';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-import-file',
-  standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButton, MatSelect, MatOption],
-  templateUrl: './import-file.component.html',
-  styleUrl: './import-file.component.css'
+    selector: 'app-import-file',
+    imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButton, MatSelect, MatOption],
+    templateUrl: './import-file.component.html',
+    styleUrl: './import-file.component.css'
 })
 export class ImportFileComponent {
   importFileForm = new FormGroup({

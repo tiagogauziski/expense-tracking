@@ -21,12 +21,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
-  selector: 'app-import-detail',
-  standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButton, MatSelect, MatOption,
-    MatTableModule, DatePipe, CurrencyPipe, MatCheckboxModule, MatIconModule, MatMenuModule, MatButtonModule],
-  templateUrl: './import-detail.component.html',
-  styleUrl: './import-detail.component.css'
+    selector: 'app-import-detail',
+    imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButton, MatSelect, MatOption,
+        MatTableModule, DatePipe, CurrencyPipe, MatCheckboxModule, MatIconModule, MatMenuModule, MatButtonModule],
+    templateUrl: './import-detail.component.html',
+    styleUrl: './import-detail.component.css'
 })
 export class ImportDetailComponent {
   MESSAGE_DURATION_SECONDS: number = 5;

@@ -10,11 +10,10 @@ import {
 } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-category-delete-dialog',
-  standalone: true,
-  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent],
-  templateUrl: './category-delete-dialog.component.html',
-  styleUrl: './category-delete-dialog.component.css'
+    selector: 'app-category-delete-dialog',
+    imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent],
+    templateUrl: './category-delete-dialog.component.html',
+    styleUrl: './category-delete-dialog.component.css'
 })
 export class CategoryDeleteDialogComponent {
   constructor(public dialogRef: MatDialogRef<CategoryDeleteDialogComponent>) {}

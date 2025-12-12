@@ -7,11 +7,10 @@ import { MatFormField, MatLabel, MatOption, MatSelect } from '@angular/material/
 import { DashboardYearSummaryComponent } from '../dashboard-year-summary/dashboard-year-summary.component';
 
 @Component({
-  selector: 'app-dashboard-home',
-  standalone: true,
-  imports: [DashboardYearSummaryComponent],
-  templateUrl: './dashboard-home.component.html',
-  styleUrl: './dashboard-home.component.css'
+    selector: 'app-dashboard-home',
+    imports: [DashboardYearSummaryComponent],
+    templateUrl: './dashboard-home.component.html',
+    styleUrl: './dashboard-home.component.css'
 })
 export class DashboardHomeComponent {
 

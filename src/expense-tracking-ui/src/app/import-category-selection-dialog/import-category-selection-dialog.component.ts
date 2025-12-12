@@ -13,11 +13,10 @@ export interface ImportCategorySelectionDialogData {
   categoryList: Category[];
 }
 @Component({
-  selector: 'app-import-category-selection-dialog',
-  standalone: true,
-  imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MatFormFieldModule, FormsModule, MatSelect, MatOption],
-  templateUrl: './import-category-selection-dialog.component.html',
-  styleUrl: './import-category-selection-dialog.component.css'
+    selector: 'app-import-category-selection-dialog',
+    imports: [MatButtonModule, MatDialogActions, MatDialogClose, MatDialogTitle, MatDialogContent, MatFormFieldModule, FormsModule, MatSelect, MatOption],
+    templateUrl: './import-category-selection-dialog.component.html',
+    styleUrl: './import-category-selection-dialog.component.css'
 })
 export class ImportCategorySelectionDialogComponent {
   selectedCategory?: Category;

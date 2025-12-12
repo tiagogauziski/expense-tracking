@@ -5,11 +5,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-settings-import',
-  standalone: true,
-  imports: [MatButton, MatIcon, MatButtonModule],
-  templateUrl: './settings-import.component.html',
-  styleUrl: './settings-import.component.css'
+    selector: 'app-settings-import',
+    imports: [MatButton, MatIcon, MatButtonModule],
+    templateUrl: './settings-import.component.html',
+    styleUrl: './settings-import.component.css'
 })
 export class SettingsImportComponent {
 

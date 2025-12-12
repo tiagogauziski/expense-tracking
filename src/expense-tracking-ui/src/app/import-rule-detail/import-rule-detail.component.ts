@@ -16,11 +16,10 @@ import { Category } from '../models/category.model';
 import { Transaction } from '../models/transaction.model';
 
 @Component({
-  selector: 'app-import-rule-detail',
-  standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButton, MatSelect, MatOption],
-  templateUrl: './import-rule-detail.component.html',
-  styleUrl: './import-rule-detail.component.css'
+    selector: 'app-import-rule-detail',
+    imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatButton, MatSelect, MatOption],
+    templateUrl: './import-rule-detail.component.html',
+    styleUrl: './import-rule-detail.component.css'
 })
 export class ImportRuleDetailComponent {
   id: string = "";
@@ -44,7 +43,7 @@ export class ImportRuleDetailComponent {
 
   ngOnInit(): void {
 
-    const currentNav = this.router.lastSuccessfulNavigation;
+    const currentNav = this.router.lastSuccessfulNavigation();
     console.log(currentNav?.extras.info);
     const importDetail: Transaction  = currentNav?.extras.info as Transaction;
 

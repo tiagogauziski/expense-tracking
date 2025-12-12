@@ -7,11 +7,10 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 
 @Component({
-  selector: 'app-import-rule-list',
-  standalone: true,
-  imports: [MatTableModule, MatButton, MatSortModule],
-  templateUrl: './import-rule-list.component.html',
-  styleUrl: './import-rule-list.component.css'
+    selector: 'app-import-rule-list',
+    imports: [MatTableModule, MatButton, MatSortModule],
+    templateUrl: './import-rule-list.component.html',
+    styleUrl: './import-rule-list.component.css'
 })
 export class ImportRuleListComponent {
   displayedColumns: string[] = ['name', 'category.name'];
