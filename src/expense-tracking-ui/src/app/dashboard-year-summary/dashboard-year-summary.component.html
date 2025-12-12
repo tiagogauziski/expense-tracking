@@ -1,6 +1,6 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>Summary</mat-card-title>
+        <mat-card-title>Sum group by category</mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <mat-form-field>
@@ -11,16 +11,8 @@
                 }
             </mat-select>
         </mat-form-field>
-        <div class="category-filter-container">
-            <mat-chip-listbox multiple selectable (change)="categoryFilterChange($event)">
-                @for (category of this.categoryList; track $index) {
-                <mat-chip-option [value]="category.name">{{category.name}}</mat-chip-option>
-                }
-            </mat-chip-listbox>
-        </div>
         <div>
-            <ngx-charts-bar-vertical-2d [results]="summaryDataSource" [xAxis]="true"
-                [yAxis]="true"></ngx-charts-bar-vertical-2d>
+            <ngx-charts-pie-grid [results]="summaryDataSource"></ngx-charts-pie-grid>
         </div>
     </mat-card-content>
 </mat-card>
